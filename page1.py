@@ -8,6 +8,10 @@ def homepage():
     return render_template("index.html")
 
 
+@app.route("/genomeassembly")
+def genomeassembly():
+    return render_template("GenomeAssembly.html")
+
+
 if __name__ == "__main__":
     app.run()
-
