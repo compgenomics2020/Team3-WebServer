@@ -9,11 +9,6 @@ a {
     text-decoration:none;
     outline:none;
     outline-style:none;
-    color:#ff8c00;
-}
-
-a:visited {
-    color: gray;
 }
 
 h1 {
