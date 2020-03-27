@@ -10,18 +10,6 @@ a {
     outline:none;
     outline-style:none;
     color:#ff8c00;
-    transition-duration:1s;
-    -moz-transition-duration:1s;
-    -webkit-transition-duration:1s;
-    -o-transition-duration:1s;
-}
-
-a:hover {
-    color:#ffa500;
-    transition-duration:1s;
-    -moz-transition-duration:1s;
-    -webkit-transition-duration:1s;
-    -o-transition-duration:1s;
 }
 
 a:visited {
@@ -39,6 +27,22 @@ h1 {
 .menu {
     background-color:lightblue;
     text-align:right;
+    padding: 2px;
+}
+
+.menu a {
+    display: inline-block;
+    text-align: center;
+    /* width: 60px;*/
+    padding: 2px;
+    margin-right: 10px;
+}
+
+.workspace {
+    width: 70%;
+    align:center;
+    margin: 5px auto 20px auto;
+    padding: 5px;
 }
 
 
