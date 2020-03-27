@@ -24,6 +24,7 @@ h1 {
     text-align:center;
 }
 
+/*MENU BAR*/
 .menu {
     background-color:lightblue;
     text-align:right;
@@ -38,9 +39,9 @@ h1 {
     margin-right: 10px;
 }
 
+/*CENTRAL CONTAINER*/
 .workspace {
     width: 70%;
-    align:center;
     margin: 5px auto 20px auto;
     padding: 5px;
 }

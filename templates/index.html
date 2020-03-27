@@ -1,32 +1,44 @@
 <html>
-        <head>
-                <title>HomePage</title>
-	
-        </head>
-        <body>
-                <h1 align="center">Webserver Name</h1>
-                <!hyperlinks>
+<head>
 
-		<div style="background-color:lightblue">
-		<p style="text-align:right">
-                <a href="https://canvas.gatech.edu/">Home</a>
-		<a href="https://canvas.gatech.edu/">Tutorial</a>
-		<a href="https://canvas.gatech.edu/">GitHub</a>
-		<a href="https://canvas.gatech.edu/">Wiki</a>
-		<a href="https://canvas.gatech.edu/">About Us</a>
-                </p>
-		</div>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&display=swap">
+<title>Home Page</title>
 
-                <!buttons>
-		<p style="text-align:center">
-               <button type="button" onclick="toGenomeAssembly()">Genome Assembly</button>
-	        <button type="button">Gene Prediction/ Functional Annotation</button>
-              <button type="button">Comparitive Genomics</button>
-		</p>
-        </body>
-        <script>
-            function toGenomeAssembly() {
-        window.location.replace(window.location.protocol  + "//"  + window.location.host + "/genomeassembly");
-    }
-        </script>
+</head>
+
+<body>
+
+<!-- hyperlinks-->
+<div class = 'menu'>
+    <a href="https://canvas.gatech.edu/">Home</a>
+    <a href="https://canvas.gatech.edu/">Tutorial</a>
+    <a href="https://canvas.gatech.edu/">GitHub</a>
+    <a href="https://canvas.gatech.edu/">Wiki</a>
+    <a href="https://canvas.gatech.edu/">About Us</a>
+</div>
+
+<!-- heading-->
+<div class = 'heading'>
+    <h1>TOOL NAME HERE</h1>
+</div>
+
+<!-- main contents-->
+<div class = 'workspace'></div>
+    <p style="text-align:center">
+        <button type="button" onclick="toGenomeAssembly()">Genome Assembly</button>
+        <button type="button">Gene Prediction/ Functional Annotation</button>
+        <button type="button">Comparitive Genomics</button>
+    </p>
+</div>
+        
+    
+</body>
+
+<script>
+    function toGenomeAssembly() {
+window.location.replace(window.location.protocol  + "//"  + window.location.host + "/genomeassembly");
+}
+</script>
 </html>
