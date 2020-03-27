@@ -1,0 +1,45 @@
+/*BUILT IN ELEMENTS*/
+body {
+    font-family: 'Roboto', sans-serif;
+    padding: 0;
+    margin: 0;
+}
+
+a {
+    text-decoration:none;
+    outline:none;
+    outline-style:none;
+    color:#ff8c00;
+    transition-duration:1s;
+    -moz-transition-duration:1s;
+    -webkit-transition-duration:1s;
+    -o-transition-duration:1s;
+}
+
+a:hover {
+    color:#ffa500;
+    transition-duration:1s;
+    -moz-transition-duration:1s;
+    -webkit-transition-duration:1s;
+    -o-transition-duration:1s;
+}
+
+a:visited {
+    color: gray;
+}
+
+h1 {
+    font-size: 30px;
+}
+
+.heading {
+    text-align:center;
+}
+
+.menu {
+    background-color:lightblue;
+    text-align:right;
+}
+
+
+
