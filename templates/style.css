@@ -1,6 +1,6 @@
 /*BUILT IN ELEMENTS*/
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto', 'Helvetica', sans-serif;
     padding: 0;
     margin: 0;
 }
@@ -11,8 +11,9 @@ a {
     outline-style:none;
 }
 
-h1 {
-    font-size: 30px;
+h1, h2, h3, h4 {
+    font-size: 40px;
+    font-family: 'Roboto Condensed', 'Helvetica Neue', sans-serif;
 }
 
 .heading {
@@ -32,6 +33,7 @@ h1 {
     /* width: 60px;*/
     padding: 2px;
     margin-right: 10px;
+    letter-spacing: .05rem;
 }
 
 /*CENTRAL CONTAINER*/
@@ -40,6 +42,24 @@ h1 {
     margin: 5px auto 20px auto;
     padding: 5px;
 }
+
+.btn {
+    padding: 0 1.25rem;
+    display: inline-block;
+    transition: background .2s ease-in-out;
+    line-height: 2.25rem;
+    letter-spacing: .05rem;
+    border: 0;
+    border-radius: 2px;
+    /* -moz-box-shadow: 1px 1px 4px rgba(0,0,0,0.2);
+    -webkit-box-shadow: 1px 1px 4px rgba(0,0,0,0.2);
+    box-shadow: 1px 1px 4px rgba(0,0,0,0.2);*/
+}
+
+.btn:hover {
+    background: lightblue;
+    transition: background .2s ease-in-out;
+   }
 
 
 
