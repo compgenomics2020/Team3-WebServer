@@ -30,7 +30,7 @@
 <div class = 'workspace'></div>
     <p style="text-align:center">
         <button type="button" class = 'btn' onclick="toGenomeAssembly()">Genome Assembly</button>
-        <button type="button" class = 'btn'>Gene Prediction/Functional Annotation</button>
+        <button type="button" class = 'btn' onclick="toFunctional()">Gene Prediction/Functional Annotation</button>
         <button type="button" class = 'btn'>Comparative Genomics</button>
     </p>
 </div>
@@ -41,6 +41,9 @@
 <script>
     function toGenomeAssembly() {
 window.location.replace(window.location.protocol  + "//"  + window.location.host + "/genomeassembly");
+}
+    function toFunctional() {
+window.location.replace(window.location.protocol  + "//"  + window.location.host + "/functional");
 }
 </script>
 </html>
