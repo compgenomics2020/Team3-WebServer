@@ -16,11 +16,6 @@ h1, h2, h3, h4 {
     font-family: 'Roboto Condensed', 'Helvetica Neue', sans-serif;
 }
 
-/*HEADING*/
-.heading {
-    text-align:center;
-}
-
 /*MENU BAR*/
 .menu {
     background-color:lightblue;
@@ -35,6 +30,20 @@ h1, h2, h3, h4 {
     padding: 2px;
     margin-right: 10px;
     letter-spacing: .05rem;
+}
+
+/*HEADING*/
+.heading {
+    text-align:center;
+    background-image: url("/static/cdc_phi_listeria.tif");
+    background-color: #cccccc;
+    color: #ffffff;
+    padding: 0.5px;
+}
+
+.mainhead {
+    height: 120px;
+    width: 100%;
 }
 
 /*CENTRAL CONTAINER*/
