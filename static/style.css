@@ -45,6 +45,7 @@ h1, h2, h3, h4 {
 }
 
 .btn {
+    background: #eeeeee;
     padding: 0 1.25rem;
     display: inline-block;
     transition: background .2s ease-in-out;
@@ -61,6 +62,3 @@ h1, h2, h3, h4 {
     background: lightblue;
     transition: background .2s ease-in-out;
    }
-
-
-

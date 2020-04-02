@@ -7,7 +7,6 @@ app = Flask(__name__)
 def homepage():
     return render_template("index.html")
 
-
 @app.route("/genomeassembly")
 def genomeassembly():
     return render_template("GenomeAssembly.html")
@@ -17,7 +16,7 @@ def functionalannotation():
     return render_template("FunctionalAnnotation.html")
 
 @app.route("/comp-gen")
-def functionalannotation():
+def comparativegenomics():
     return render_template("ComparativeGenomics.html")
 
 if __name__ == "__main__":
