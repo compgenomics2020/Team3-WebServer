@@ -36,6 +36,7 @@ h1, h2, h3, h4 {
 .heading {
     text-align:center;
     background-image: url("/static/cdc_phi_listeria.tif");
+    background-position: center;
     background-color: #cccccc;
     color: #ffffff;
     padding: 0.5px;
