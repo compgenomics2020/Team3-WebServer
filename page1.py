@@ -12,6 +12,9 @@ def homepage():
 def genomeassembly():
     return render_template("GenomeAssembly.html")
 
+@app.route("/functional")
+def functionalanotation():
+    return render_template("FunctionalAnnotation.html")
 
 if __name__ == "__main__":
     app.run()
