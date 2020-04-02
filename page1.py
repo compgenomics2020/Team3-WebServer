@@ -12,9 +12,13 @@ def homepage():
 def genomeassembly():
     return render_template("GenomeAssembly.html")
 
-@app.route("/functional")
-def functionalanotation():
+@app.route("/func-ann")
+def functionalannotation():
     return render_template("FunctionalAnnotation.html")
+
+@app.route("/comp-gen")
+def functionalannotation():
+    return render_template("ComparativeGenomics.html")
 
 if __name__ == "__main__":
     app.run()
