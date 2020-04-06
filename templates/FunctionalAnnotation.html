@@ -6,7 +6,7 @@
 <link rel="shortcut icon" href="https://hosting.gatech.edu/sites/all/themes/gt_subtheme/favicon.ico" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap">
-<title>Home Page</title>
+<title>Functional Annotation</title>
 
 </head>
 
@@ -23,30 +23,27 @@
 
 <!-- heading-->
 <div class = 'heading'>
-    <div class = 'mainhead'></div>
-    <h1>TOOL NAME HERE</h1>
-    <div class = 'mainhead'></div>
+    <h1>Functional Annotation</h1>
 </div>
 
 <!-- main contents-->
-<div class = 'workspace'></div>
-    <p style="text-align:center">
-        <a href="/genomeassembly" class = 'btn'>Genome Assembly</a>
-        <a href="/func-ann" class = 'btn'>Gene Prediction/Functional Annotation</a>
-        <a href="/comp-gen" class = 'btn'>Comparative Genomics</a>
-    </p>
+<div class = 'workspace'>
+<div class = 'uploads'>
+<p>Please input two files below. The required format needs to be ....</p>
+<label>Input file</label>
+<input type="file" id="ann_input"/></input>
+<br>
+<label>Email</label>
+<input type="text" id="ann_email"/></input>
+<br>
+<br>
+<button type="submit" name="submit" class="btn btn-primary"><i class="fa fa-search"></i>Submit</button>
+<p>Image credits: <a>https://phil.cdc.gov/Details.aspx?pid=21917</a></p>
 </div>
-        
+<div class = 'description'>
 
-    
+</div>
+</div>
+
 </body>
-
-<script>
-    function toGenomeAssembly() {
-window.location.replace(window.location.protocol  + "//"  + window.location.host + "/genomeassembly");
-}
-    function toFunctional() {
-window.location.replace(window.location.protocol  + "//"  + window.location.host + "/functional");
-}
-</script>
 </html>
