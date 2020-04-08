@@ -28,21 +28,50 @@
 
 <!-- main contents-->
 <div class = 'workspace'>
-<div class = 'uploads'>
-<p>Please input two files below. The required format needs to be ....</p>
-<label>Input file</label>
-<input type="file" id="ann_input"/></input>
-<br>
-<label>Email</label>
-<input type="text" id="ann_email"/></input>
-<br>
-<br>
-<button type="submit" name="submit" class="btn btn-primary"><i class="fa fa-search"></i>Submit</button>
-<p>Image credits: <a>https://phil.cdc.gov/Details.aspx?pid=21917</a></p>
-</div>
-<div class = 'description'>
-
-</div>
+    <div class = 'input'>
+        <h2>Input Data</h2>
+        <p>Allowed format: FASTA files</p>
+        <label>Query Genome(s)</label><br>
+        <input type="file" id="assem_query" multiple></input>
+        <p>Select up to 50 files.</p>
+    </div>
+    
+    <div class = 'job_info'>
+        <h2>Annotation Options</h2>
+        <div class = 'user_info'>
+            <h2>User Information</h2>
+            <label>Name:</label>
+            <input type="text" id="assem_name"/></input><br>
+            <label>Email:</label>
+            <input type="text" id="assem_email"/></input><br>
+            <label>Job Name:</label>
+            <input type="text" id="assem_job"/></input>
+        </div>
+        <div class = 'tool_choice'>
+            <h2>Assembly Tool</h2>
+            <input type="checkbox" name="anntool1" value="CARD-rgi" checked>
+            <label for="anntool1"> CARD-rgi</label><br>
+            <input type="checkbox" name="anntool2" value="VDFB" checked>
+            <label for="anntool2"> VDFB</label><br>
+            <input type="checkbox" name="anntool3" value="eggNOG">
+            <label for="anntool3"> eggNOG</label><br>
+            <input type="checkbox" name="anntool4" value="Pilercr">
+            <label for="anntool4"> Pilercr</label><br>
+            <input type="checkbox" name="anntool5" value="SignalP">
+            <label for="anntool5"> SignalP</label><br>
+            <input type="checkbox" name="anntool6" value="HMMTOP">
+            <label for="anntool6"> HMMTOP</label><br>
+        </div>
+    </div>
+    
+    <br>
+    <br>
+    <button type="submit" name="submit" class="btn btn-primary"><i class="fa fa-search"></i>Submit</button>
+    <button type="reset" name="reset" class="btn btn-primary">Reset</button>
+    
+    
+    <div class = 'description'>
+    </div>
 </div>
 
 </body>
