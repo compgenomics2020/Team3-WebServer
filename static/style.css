@@ -22,19 +22,19 @@ h1 {
 
 h2 {
     font-size: 20px;
-    color: #888888;
+    color: #888;
 }
 
 h3 {
     font-size: 18px;
-    color: #aaaaaa;
+    color: #aaa;
 }
 
 /*MENU BAR*/
 .menu {
-    background-color:lightblue;
     text-align:right;
     padding: 2px;
+    background-color: #000;
 }
 
 .menu a {
@@ -44,6 +44,8 @@ h3 {
     padding: 2px;
     margin-right: 10px;
     letter-spacing: .05rem;
+    text-transform: bold;
+    color: white;
 }
 
 /*HEADING*/
