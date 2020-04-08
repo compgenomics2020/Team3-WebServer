@@ -50,13 +50,14 @@
             <input type="text" id="assem_job"/></input>
         </div>
         <div class = 'tool_choice'>
-            <h2>Assembly Tool</h2>
-            <input type="checkbox" name="assemtool1" value="FAST-ANI" checked>
-            <label for="assemtool1"> SPADES</label><br>
-            <input type="checkbox" name="assemtool2" value="StringMLST">
-            <label for="assemtool2"> SKESA</label><br>
-            <input type="checkbox" name="assemtool3" value="kSNP">
-            <label for="assemtool3"> abyss</label><br>
+            <h2>Assembler</h2>
+            <p>Select an assembler to use:</p>
+            <input type="radio" name="assemtool" value="SPADES" checked>
+            <label for="SPADES"> SPADES</label><br>
+            <input type="radio" name="assemtool" value="SKESA">
+            <label for="SKESA"> SKESA</label><br>
+            <input type="radio" name="assemtool" value="abyss">
+            <label for="abyss"> abyss</label><br>
         </div>
     </div>
     

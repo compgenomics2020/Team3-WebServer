@@ -32,7 +32,7 @@
         <h2>Input Data</h2>
         <p>Allowed format: FASTA files</p>
         <label>Query Genome(s)</label><br>
-        <input type="file" id="assem_query" multiple></input>
+        <input type="file" id="ann_query" multiple></input>
         <p>Select up to 50 files.</p>
     </div>
     
@@ -41,14 +41,15 @@
         <div class = 'user_info'>
             <h2>User Information</h2>
             <label>Name:</label>
-            <input type="text" id="assem_name"/></input><br>
+            <input type="text" id="ann_name"/></input><br>
             <label>Email:</label>
-            <input type="text" id="assem_email"/></input><br>
+            <input type="text" id="ann_email"/></input><br>
             <label>Job Name:</label>
-            <input type="text" id="assem_job"/></input>
+            <input type="text" id="ann_job"/></input>
         </div>
         <div class = 'tool_choice'>
-            <h2>Assembly Tool</h2>
+            <h2>Annotation Tool</h2>
+            <p>Select which functional annotation tool(s) to use:</p>
             <input type="checkbox" name="anntool1" value="CARD-rgi" checked>
             <label for="anntool1"> CARD-rgi</label><br>
             <input type="checkbox" name="anntool2" value="VDFB" checked>
