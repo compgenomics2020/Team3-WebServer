@@ -67,26 +67,6 @@
     
     
     <div class = 'description'>
-        <h2>Description</h2>
-        <p>This is a tool for assembling <i>Listeria monocytogenes</i> genomes.</p>
-        <h3>Quality Control</h3>
-        <ul>
-            <li>Fastp (v 0.20.0): a tool that combines both quality control and 
-                trimming into a single, rapidly-implemented step</li>
-            <li>MultiQC (v 1.8): consolidates the quality control reports generated 
-                for each sample by fastp into a single report</li>
-        </ul>
-        <h3>Default Trimming Parameters</h3>
-        <ul>
-            <li>-f 5 - globally trims 5 bases from 5' end of mate 1</li>
-            <li>-F 30 - globally trims 30 bases from 5' end of mate 2</li>
-            <li>-t 10 - globally trims 10 bases from 3' end of both mates</li>
-            <li>-e 28 - discards reads with an average quality score under 28</li>
-            <li>-c - turns on paired-end base correction, which slightly increased the 
-                quality of the 3' end of mate 2</li>
-            <li>-5 5 - turns on sliding window trimming from 5' end with a window size of 5</li>
-            <li>-M 27 - sets a quality threshold of 27 for sliding window</li>
-        </ul>
     </div>
 </div>
 
