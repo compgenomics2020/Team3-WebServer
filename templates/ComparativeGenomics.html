@@ -28,7 +28,8 @@
 
 <!-- main contents-->
 <div class = 'workspace'>
-<div class = 'user_info'>
+<div class = 'comp_info'>
+<span class = 'user_info'>
     <h2>User Information</h2>
     <label>Email</label>
     <input type="text" id="comp_email"/></input><br>
@@ -36,8 +37,8 @@
     <input type="text" id="comp_name"/></input><br>
     <label>Job Name</label>
     <input type="text" id="comp_job"/></input>
-</div>
-<div class = 'tool_choice'>
+</span>
+<span class = 'tool_choice'>
     <h2>Tool Selection</h2>
     <input type="checkbox" name="comptool1" value="FAST-ANI" checked>
     <label for="comptool1"> FAST-ANI</label><br>
@@ -49,24 +50,26 @@
     <label for="comptool4"> BPGA</label><br>
     <input type="checkbox" name="comptool5" value="Roary">
     <label for="comptool5"> Roary</label>
+</span>
 </div>
 
 <div class = 'comp_input'>
 <h2>Input Data</h2>
 <p>Input reference and query files below.</p>
-<div class = 'comp_query'>
+
+<span class = 'comp_query'>
     <label>Query Genome(s)</label>
-    <input type="file" id="comp_query"/></input>
+    <input type="file" id="comp_query" multiple></input>
     <p>Select up to X files.</p>
     <p>Allowed file format: FASTA</p>
-</div>
-<div class = 'comp_reference'>
+</span>
+
+<span class = 'comp_reference'>
     <label>Reference Genome</label>
+    <input type="file" id="comp_reference"/></input>
     <p>Select 1 file or run against default reference genome (?).</p>
     <p>Allowed file format: FASTA</p>
-    <input type="file" id="comp_reference"/></input>
-</div>
-
+</span>
 
 <br>
 <br>
