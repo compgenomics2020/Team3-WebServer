@@ -84,6 +84,12 @@ h2 {
 /*COMPARATIVE GENOMICS*/
 .user_info, .tool_choice, .comp_query, .comp_ref {
     display: inline-block;
-    width: 40%;
+    width: 49%;
     vertical-align: top;
+}
+
+.user_info label {
+    display: inline-block;
+    min-width: 90px;
+    margin-right: 10px;
 }
