@@ -3,6 +3,7 @@ body {
     font-family: 'Roboto', 'Helvetica', sans-serif;
     padding: 0;
     margin: 0;
+    font-size: 14px;
 }
 
 a {
@@ -22,6 +23,11 @@ h1 {
 h2 {
     font-size: 20px;
     color: #888888;
+}
+
+h3 {
+    font-size: 18px;
+    color: #aaaaaa;
 }
 
 /*MENU BAR*/
@@ -81,8 +87,7 @@ h2 {
     transition: background .2s ease-in-out;
    }
 
-/*COMPARATIVE GENOMICS*/
-.user_info, .tool_choice, .comp_query, .comp_ref {
+.user_info, .tool_choice {
     display: inline-block;
     width: 49%;
     vertical-align: top;
@@ -92,4 +97,11 @@ h2 {
     display: inline-block;
     min-width: 90px;
     margin-right: 10px;
+}
+
+/*COMPARATIVE GENOMICS*/
+.comp_query, .comp_ref {
+    display: inline-block;
+    width: 49%;
+    vertical-align: top;
 }

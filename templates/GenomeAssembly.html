@@ -26,15 +26,68 @@
 </div>
 
 <div class = 'workspace'>
-<p>Please input two files below. The required format needs to be ....</p>
-<label>Input file 1</label>
-<input type="file" id="input1" style="text-align: right"/></input>
-<br>
-<label>Input file 2</label>
-<input type="file" id="input2" style="text-align: right"/></input>
-<br>
-<br>
-<button type="submit" name="submit" class="btn btn-primary"><i class="fa fa-search"></i>Submit</button>
+    <div class = 'input'>
+        <h2>Input Data</h2>
+        <p>Input paired-end sequence data for assembly. Upload all files in FASTQ format. 
+        Label the read 1 and read 2 files for each sample with the same sample ID, and label
+        all read 1 files with '_1.fq' and all read 2 files with '_2.fq'.</p>
+        <label>Isolate Genome(s)</label><br>
+        <input type="file" id="assem_query" multiple></input>
+        <p>Select up to 50 files.</p>
+    </div>
+    
+    <div class = 'job_info'>
+        <h2>Assembly Options</h2>
+        <input type="checkbox" name="needs_trimming" value="True" checked>
+        <label for="comptool1"> Perform trimming on these FASTQ files.</label><br>
+        <div class = 'user_info'>
+            <h2>User Information</h2>
+            <label>Name:</label>
+            <input type="text" id="assem_name"/></input><br>
+            <label>Email:</label>
+            <input type="text" id="assem_email"/></input><br>
+            <label>Job Name:</label>
+            <input type="text" id="assem_job"/></input>
+        </div>
+        <div class = 'tool_choice'>
+            <h2>Assembly Tool</h2>
+            <input type="checkbox" name="assemtool1" value="FAST-ANI" checked>
+            <label for="assemtool1"> SPADES</label><br>
+            <input type="checkbox" name="assemtool2" value="StringMLST">
+            <label for="assemtool2"> SKESA</label><br>
+            <input type="checkbox" name="assemtool3" value="kSNP">
+            <label for="assemtool3"> abyss</label><br>
+        </div>
+    </div>
+    
+    <br>
+    <br>
+    <button type="submit" name="submit" class="btn btn-primary"><i class="fa fa-search"></i>Submit</button>
+    <button type="reset" name="reset" class="btn btn-primary">Reset</button>
+    
+    
+    <div class = 'description'>
+        <h2>Description</h2>
+        <p>This is a tool for assembling <i>Listeria monocytogenes</i> genomes.</p>
+        <h3>Quality Control</h3>
+        <ul>
+            <li>Fastp (v 0.20.0): a tool that combines both quality control and 
+                trimming into a single, rapidly-implemented step</li>
+            <li>MultiQC (v 1.8): consolidates the quality control reports generated 
+                for each sample by fastp into a single report</li>
+        </ul>
+        <h3>Default Trimming Parameters</h3>
+        <ul>
+            <li>-f 5 - globally trims 5 bases from 5' end of mate 1</li>
+            <li>-F 30 - globally trims 30 bases from 5' end of mate 2</li>
+            <li>-t 10 - globally trims 10 bases from 3' end of both mates</li>
+            <li>-e 28 - discards reads with an average quality score under 28</li>
+            <li>-c - turns on paired-end base correction, which slightly increased the 
+                quality of the 3' end of mate 2</li>
+            <li>-5 5 - turns on sliding window trimming from 5' end with a window size of 5</li>
+            <li>-M 27 - sets a quality threshold of 27 for sliding window</li>
+        </ul>
+    </div>
 </div>
 
 </body>
