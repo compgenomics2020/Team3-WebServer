@@ -20,7 +20,8 @@ h1 {
 }
 
 h2 {
-    font-size: 30px;
+    font-size: 20px;
+    color: #888888;
 }
 
 /*MENU BAR*/
@@ -79,3 +80,10 @@ h2 {
     background: lightblue;
     transition: background .2s ease-in-out;
    }
+
+/*COMPARATIVE GENOMICS*/
+.user_info, .tool_choice, .comp_query, .comp_ref {
+    display: inline-block;
+    width: 40%;
+    vertical-align: top;
+}
