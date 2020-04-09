@@ -74,8 +74,6 @@ h3 {
     background-color: #cccccc;
     color: #ffffff;
     padding: 0.5px;
-    -webkit-transition: all 50s ease-in-out;
-        transition: transform 50s;
   
 }
 
