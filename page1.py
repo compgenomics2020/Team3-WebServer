@@ -19,5 +19,9 @@ def functionalannotation():
 def comparativegenomics():
     return render_template("ComparativeGenomics.html")
 
+@app.route("/AboutUs")
+def aboutus():
+    return render_template("AboutUs.html")
+
 if __name__ == "__main__":
     app.run()
