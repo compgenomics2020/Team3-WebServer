@@ -23,5 +23,10 @@ def comparativegenomics():
 def aboutus():
     return render_template("AboutUs.html")
 
+@app.route("/submit")
+def submit():
+    return render_template("submit.html")
+
+
 if __name__ == "__main__":
     app.run()
