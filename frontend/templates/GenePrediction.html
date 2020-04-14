@@ -23,21 +23,21 @@
 
 <!-- heading-->
 <div class = 'heading'>
-    <h1>Functional Annotation</h1>
+    <h1>Gene Prediction</h1>
 </div>
 
 <!-- main contents-->
 <div class = 'workspace'>
     <div class = 'input'>
         <h2>Input Data</h2>
-        <p>Allowed format: FASTA files</p>
-        <label>Query Genome(s)</label><br>
+        <p>1. Assembled FASTA files:</p>
         <input type="file" id="ann_query" multiple></input>
         <p>Select up to 50 files.</p>
+        <p>2. Query species CDS in FASTA format:</p>
+        <input type="file" id="ann_query"></input>
     </div>
 
     <div class = 'job_info'>
-        <h2>Annotation Options</h2>
         <div class = 'user_info'>
             <h2>User Information</h2>
 	    <form>
@@ -55,23 +55,6 @@
 	    <a href="/submit" class = 'btn btn-primary'>Submit</a>
             <button type="reset" class="btn btn-primary">Reset</button>
         </form>
-        </div>
-	<div class = 'tool_choice'>
-            <h2>Annotation Tool</h2>
-            <p>Select which functional annotation tool(s) to use:</p>
-            <input type="checkbox" name="anntool1" value="CARD-rgi" checked>
-            <label for="anntool1"> CARD-rgi</label><br>
-            <input type="checkbox" name="anntool2" value="VDFB" checked>
-            <label for="anntool2"> VDFB</label><br>
-            <input type="checkbox" name="anntool3" value="eggNOG">
-            <label for="anntool3"> eggNOG</label><br>
-            <input type="checkbox" name="anntool4" value="Pilercr">
-            <label for="anntool4"> Pilercr</label><br>
-            <input type="checkbox" name="anntool5" value="SignalP">
-            <label for="anntool5"> SignalP</label><br>
-            <input type="checkbox" name="anntool6" value="HMMTOP">
-            <label for="anntool6"> HMMTOP</label><br>
-
         </div>
     </div>
 

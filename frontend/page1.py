@@ -11,6 +11,10 @@ def homepage():
 def genomeassembly():
     return render_template("GenomeAssembly.html")
 
+@app.route("/geneprediction")
+def geneprediction():
+    return render_template("GenePrediction.html")
+
 @app.route("/func-ann")
 def functionalannotation():
     return render_template("FunctionalAnnotation.html")
