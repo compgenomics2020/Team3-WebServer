@@ -15,6 +15,21 @@ def homepage():
 def genomeassembly():
     return render_template("GenomeAssembly.html")
 
+@mod.route("/send_message_assem",methods=['POST'])
+def send_message():
+	email=request.form.get('assem_email')
+	msg = Message(
+		subject='Scolia output',
+		sender='scoliagatech@gmail.com',
+		recipients=
+			[email])
+		#html=render_template("index.html"))
+	with mod.open_resource("../downloads/test.txt") as fp:
+			msg.attach("test.txt", "test/txt", fp.read())
+	mail.send(msg)
+	confirm_msg = 'Your message has been sent!'
+	return render_template("index.html", confirm_msg=confirm_msg)
+
 @mod.route("/geneprediction")
 def geneprediction():
     return render_template("GenePrediction.html")

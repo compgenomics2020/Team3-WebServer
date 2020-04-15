@@ -40,15 +40,17 @@
         <h2>Assembly Options</h2>
         <input type="checkbox" name="needs_trimming" value="True" checked>
         <label for="needs_trimming"> Perform trimming on these FASTQ files.</label><br>
-        <div class = 'user_info'>
+        <form class = 'user_info' action='/send_message_assem' method="post">
             <h2>User Information</h2>
             <label>Name:</label>
-            <input type="text" id="assem_name"/></input><br>
+            <input type="text" id="assem_name" name="assem_name"/></input><br>
             <label>Email:</label>
-            <input type="text" id="assem_email"/></input><br>
+            <input type="text" id="assem_email" name="assem_email"/></input><br>
             <label>Job Name:</label>
-            <input type="text" id="assem_job"/></input>
-        </div>
+            <input type="text" id="assem_job" name="assem_job"/></input>
+            <input type="submit" value="Submit">
+            <input type="reset" value="Reset">
+        </form>
         <div class = 'tool_choice'>
             <h2>Assembler</h2>
             <p>Select an assembler to use:</p>
@@ -63,10 +65,6 @@
     
     <br>
     <br>
-    <button type="submit" name="submit" class="btn btn-primary"><i class="fa fa-search"></i>Submit</button>
-    <button type="reset" name="reset" class="btn btn-primary">Reset</button>
-    
-    
     <div class = 'description'>
     </div>
 </div>

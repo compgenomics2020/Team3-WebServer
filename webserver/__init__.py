@@ -8,7 +8,7 @@ app.config.update(
 	MAIL_USE_SSL=True,
 	MAIL_USERNAME='scoliagatech@gmail.com',
 	MAIL_PASSWORD='Team3-WebServer'
-        )
+	)
 mail = Mail(app)
 from webserver.backend.routes import mod
 from webserver.frontend.routes import mod
