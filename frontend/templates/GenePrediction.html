@@ -6,10 +6,11 @@
 <link rel="shortcut icon" href="https://hosting.gatech.edu/sites/all/themes/gt_subtheme/favicon.ico" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap">
+
 <title>Functional Annotation</title>
-
+<style>
+</style>
 </head>
-
 <body>
 
 <!-- hyperlinks-->
@@ -28,16 +29,16 @@
 
 <!-- main contents-->
 <div class = 'workspace'>
-    <div class = 'input'>
+    <div class = 'gene_pred1'>
         <h2>Input Data</h2>
         <p>1. Assembled FASTA files:</p>
         <input type="file" id="ann_query" multiple></input>
-        <p>Select up to 50 files.</p>
+        <p>Select up to 10 files.</p>
         <p>2. Query species CDS in FASTA format:</p>
         <input type="file" id="ann_query"></input>
     </div>
 
-    <div class = 'job_info'>
+    <div class = 'gene_pred2'>
         <div class = 'user_info'>
             <h2>User Information</h2>
 	    <form>
@@ -49,12 +50,12 @@
             <input type="text" id="ann_job"/></input>
 	    <br>
 	    <br>
-	    <br>
-	    <br>
-	    <br>
-	    <a href="/submit" class = 'btn btn-primary'>Submit</a>
-            <button type="reset" class="btn btn-primary">Reset</button>
-        </form>
+            <p style="text-align:right">	    
+	    <!--<a href="/submit" class = 'btn'>Submit</a>-->
+            <a href="/submit" type="reset" class = 'btn'}>Go!</a>
+	    <button type="reset" class="btn btn-primary">Reset</button>
+	    </p>
+	    </form>
         </div>
     </div>
 
