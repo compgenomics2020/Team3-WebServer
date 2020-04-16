@@ -14,4 +14,4 @@ from webserver.backend.routes import mod
 from webserver.frontend.routes import mod
 
 app.register_blueprint(frontend.routes.mod)
-app.register_blueprint(backend.routes.mod,url_prefix='/api')
+app.register_blueprint(backend.routes.mod)
