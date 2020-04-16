@@ -69,7 +69,7 @@ h3 {
 /*HEADING*/
 .heading {
     text-align:center;
-    background-image: url("/frontend/static/cdc_phi_listeria.tif");
+    background-image: url("./cdc_phi_listeria.tif");
     background-position: center;
     background-color: #cccccc;
     color: #ffffff;
@@ -129,10 +129,10 @@ h3 {
     vertical-align: top;
 }
 
-.gene_pred2{
-float : left;
+.gene_pred1{
+	float:right;
 }
 
-.gene_pred1{
-float:right
+.gene_pred2{
+	float:left;
 }
