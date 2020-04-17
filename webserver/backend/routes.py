@@ -1,4 +1,4 @@
-from flask import Blueprint Response
+from flask import Blueprint, Response
 import os
 import urllib.request
 from flask import Flask, request, redirect, jsonify
@@ -8,8 +8,9 @@ from random import randint
 from multiprocessing import Pool
 import time
 import subprocess
+from webserver import functional_annotation 
 #import pipeline_ahish_sonali
-#ALLOWED_EXTENSIONS = set(['gz'])
+ALLOWED_EXTENSIONS = set(['gz'])
 UPLOAD_FOLDER = './Input/Functional_Annotation/'
 #from api.models import Process_File
 
@@ -37,9 +38,9 @@ def send_message_back(email,filename):
 		reciepients=
 			[email])
 	with mod.open_resource("../downloads/test.txt") as fp:
-		msg.attach("test.txt",test/txt",fp.read())
+		msg.attach("test.txt","test/txt",fp.read())
 	mail.send(msg)
-	confirm_msg = 'Your message has been sent!"
+	confirm_msg = 'Your message has been sent!'
 	return (True)
 @mod.route("/download_display")
 def download_display():
@@ -48,7 +49,7 @@ def download_display():
 	Hello. <a href="/backend/get_Output">Click me.</a>
 	</body></html>
 	'''
-@mod.route('/get_Output'):
+@mod.route('/get_Output')
 def get_Output():
 	with mod.open_resource("../downloads/test.txt") as fp:
                 test=fp.read()
@@ -58,21 +59,16 @@ def get_Output():
 		headers={"Content-disposition":
 			"attachment; filename=my_test.txt"})
 
-@mod.route('/Functional_Annotation',methods=['POST'])
-def Functional_Annotation():
+@mod.route('/backend_functional')
+def backend_functional(file1):
 	# check if the post request has the file part
-    if ('file1' not in request.files):
-        resp = jsonify({'message' : 'No file part in the request'})
-        resp.status_code = 400
-        return resp
-    file1 = request.files['file1']
     if (file1.filename == '') :
         resp = jsonify({'message' : 'No file selected for uploading'})
         resp.status_code = 400
         return resp
     if (file1) and (allowed_file(file1.filename)) :
         filename1 = secure_filename(file1.filename)
-        file1.save(os.path.join(app.config['UPLOAD_FOLDER'], filename1))
+        file1.save(os.path.join(UPLOAD_FOLDER, filename1))
         resp = jsonify({'message' : 'File successfully uploaded'})
         resp.status_code = 201
          
@@ -96,11 +92,11 @@ def Functional_Annotation():
         print(file1_location)
         
         #pool = Pool(processes=4)              #start 4 worker processes
-        #pool.apply_async(pipeline_ahish_sonali.f, (file1_location,"./sonali_test",file2_location,))   # evaluate "f(10)" asynchronously in a single process
-               
-        return resp
+       	#res=pool.apply_async(functional_annotation.Run_Functional, (file1_location))   # evaluate "f(10)" asynchronously in a single process
+        #print (res.get(timeout=1))                
+        return (True)
          
-    #else:
-       	#resp = jsonify({'message' : 'Allowed format is gzip for FASTA files'})
-        #resp.status_code = 400
-        #return resp
+    else:
+       	resp = jsonify({'message' : 'Allowed format is gzip for FASTA files'})
+        resp.status_code = 400
+        return resp

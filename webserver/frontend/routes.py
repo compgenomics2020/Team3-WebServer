@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for, render_template,Blueprint,request
+from flask import Flask, redirect, url_for, render_template,Blueprint,request, jsonify
 from flask_mail import Mail, Message,current_app
 
 mod=Blueprint('frontend',__name__,template_folder='templates',static_folder='static',static_url_path='/frontend/static')
@@ -44,3 +44,16 @@ def aboutus():
 def submit():
     return render_template("submit.html")
 
+@mod.route('/Functional_Annotation',methods=['POST'])
+def Functional_Annotation():
+	# check if the post request has the file part
+	if ('file1' not in request.files):
+		resp = jsonify({'message' : 'No file part in the request'})
+		resp.status_code = 400
+		return resp
+	file1 = request.files['file1']
+	did_send=backend_mod.backend_functional(file1)
+	if did_send:
+		confirm_msg='File Submitted!'
+		return render_template("submit.html",confirm_msg=confirm_msg)
+	
