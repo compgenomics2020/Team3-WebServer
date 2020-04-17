@@ -27,12 +27,12 @@
 </div>
 
 <!-- main contents-->
-<div class = 'workspace'>
+<form class = 'workspace',action='/Functional_Annotation' method="post">
     <div class = 'input'>
         <h2>Input Data</h2>
-        <p>Allowed format: FASTA files</p>
+        <p>Allowed format: FASTA files from gene prediction output in "gz" folder</p>
         <label>Query Genome(s)</label><br>
-        <input type="file" id="ann_query" multiple></input>
+        <input type="file" id="file1" name="file1"></input>
         <p>Select up to 50 files.</p>
     </div>
 
@@ -40,7 +40,7 @@
         <h2>Annotation Options</h2>
         <div class = 'user_info'>
             <h2>User Information</h2>
-	    <form>
+	    <div>
             <label>Name:</label>
             <input type="text" id="ann_name"/></input><br>
             <label>Email:</label>
@@ -54,7 +54,7 @@
 	    <br>
 	    <a href="/submit" class = 'btn btn-primary'>Submit</a>
             <button type="reset" class="btn btn-primary">Reset</button>
-        </form>
+        </div>
         </div>
 	<div class = 'tool_choice'>
             <h2>Annotation Tool</h2>
@@ -77,10 +77,10 @@
 
     <br>
     <br>
-
+    <button type="submit" formmethod="post">Submit using POST</button>
     <div class = 'description'>
     </div>
-</div>
+</form>
 
 </body>
 

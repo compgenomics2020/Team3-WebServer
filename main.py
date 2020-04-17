@@ -1,19 +1,25 @@
-from flask import Blueprint Response
+from flask import Flask
+from multiprocessing import Pool
+import time
+
+UPLOAD_FOLDER = './Input/Functional_Annotation/'
+
+app = Flask(__name__)
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['CELERY_BROKER_URL'] = 'redis://localhost:6379/0'
+app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379/0'
+
+
 import os
 import urllib.request
 from flask import Flask, request, redirect, jsonify
 from werkzeug.utils import secure_filename
 from datetime import datetime
 from random import randint
-from multiprocessing import Pool
-import time
 import subprocess
 #import pipeline_ahish_sonali
-#ALLOWED_EXTENSIONS = set(['gz'])
-UPLOAD_FOLDER = './Input/Functional_Annotation/'
-#from api.models import Process_File
-
-mod=Blueprint('backend',__name__)
+ALLOWED_EXTENSIONS = set(['gz'])
 
 def allowed_file(filename):
     #print(filename.rsplit('.', 1)[1].lower())
@@ -28,38 +34,8 @@ def generate_job_id():
     r2=datetime.today().strftime('%Y%m%d%H%M%S')
     return (str(r1)+r2+str(r3))
 
-
-@mod.route('/send_message_backend')
-def send_message_back(email,filename):
-	msg=Message(
-		subject='Scolia output',
-		sender='scoliagatech@gmail.com',
-		reciepients=
-			[email])
-	with mod.open_resource("../downloads/test.txt") as fp:
-		msg.attach("test.txt",test/txt",fp.read())
-	mail.send(msg)
-	confirm_msg = 'Your message has been sent!"
-	return (True)
-@mod.route("/download_display")
-def download_display():
-	return'''
-	<html><body>
-	Hello. <a href="/backend/get_Output">Click me.</a>
-	</body></html>
-	'''
-@mod.route('/get_Output'):
-def get_Output():
-	with mod.open_resource("../downloads/test.txt") as fp:
-                test=fp.read()
-	return Response(
-		test,
-		mimetype="text/plain",
-		headers={"Content-disposition":
-			"attachment; filename=my_test.txt"})
-
-@mod.route('/Functional_Annotation',methods=['POST'])
-def Functional_Annotation():
+@app.route('/', methods=['POST'])
+def upload_file():
 	# check if the post request has the file part
     if ('file1' not in request.files):
         resp = jsonify({'message' : 'No file part in the request'})
@@ -104,3 +80,9 @@ def Functional_Annotation():
        	#resp = jsonify({'message' : 'Allowed format is gzip for FASTA files'})
         #resp.status_code = 400
         #return resp
+
+   
+    
+    
+if __name__ == "__main__":
+    app.run()
