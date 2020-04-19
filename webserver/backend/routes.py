@@ -1,27 +1,43 @@
+from os import path
 from flask import Blueprint, Response
 #from webserver import create_app
 import os
 import urllib.request
 from flask import Flask, request, redirect, jsonify
+from flask import current_app
 from werkzeug.utils import secure_filename
 from datetime import datetime
 from random import randint
 from multiprocessing import Pool
 import time
 import subprocess
-from webserver import mail
+from flask_mail import Mail, Message
+#from webserver import mail
+#print(mail)
 from webserver.backend import models 
 from webserver.backend import db_util 
 from webserver.backend import email_util
 pool = Pool(processes=4)
-
+pool3=Pool(processes=4)
+from flask import send_file
+from webserver.backend import delete_downloads
 ALLOWED_EXTENSIONS = set(['gz'])
 UPLOAD_FOLDER = './Input/Functional_Annotation/'
+BASE_OUTPUT_PATH = './Output/'
+#mail=Mail(current_app)
+current_app.config.update(
+        DEBUG=True,
+        MAIL_SERVER="smtp.gmail.com",
+        MAIL_PORT=465,
+        MAIL_USE_SSL=True,
+        MAIL_USERNAME='scoliagatech@gmail.com',
+        MAIL_PASSWORD='Team3-WebServer'
+        )
+mail=Mail(current_app)
+with current_app.app_context():
+	email_util.init_email_sender(mail)
 
-#with app.app_context():
-#pool2 = Pool(processes=4)
-#pool2.apply_async(email_util.init_email_sender,(mail,))
-
+pipeline_dict = {1:'Genome_Assembly', 2:'Gene_Prediction', 3:'Functional_Annotation', 4:'Comparitive Genomics'}
 mod=Blueprint('backend',__name__)
 
 def allowed_file(filename):
@@ -68,6 +84,7 @@ def get_Output():
 
 @mod.route('/backend_functional')
 def backend_functional(file1,user_email):
+    print(user_email)
     flag=0
 	# check if the post request has the file part
     if (file1.filename == '') :
@@ -98,16 +115,29 @@ def backend_functional(file1,user_email):
         #file2_location = "./Input/Gene_Prediction/"+new_filename+"/"+file2.filename
        
         print(file1_location)
-        
-        pool.apply_async(models.f,(10,file1_location,flag,))   # evaluate "f(10)" asynchronously in a single process
+        output_path=BASE_OUTPUT_PATH+"Functional_Annotation/"+new_filename+".tar.gz"        
+        pool.apply_async(models.f,(10,file1_location,flag,output_path))   # evaluate "f(10)" asynchronously in a single process
 	
         if flag == 0:
             c1 = db_util.scolia_data(job_id = new_filename, email = user_email ,job_submitted = 0, email_sent = 0, pipeline_number = 3)
             db_util.insert(c1)
-
+            #print(db_util.get_job_id_for_emails())
         return (True)
          
     else:
        	resp = jsonify({'message' : 'Allowed format is gzip for FASTA files'})
         resp.status_code = 400
         return resp
+
+@mod.route("/download", methods=['GET'])
+def download_processed_files():
+    job_id = str(request.args.get("id"))
+    row = db_util.get_one(job_id)
+    pipeline_number = row.pipeline_number
+    file_path = "."+BASE_OUTPUT_PATH+pipeline_dict.get(pipeline_number)+"/"+job_id+".tar.gz"
+    file_path_delete=BASE_OUTPUT_PATH+pipeline_dict.get(pipeline_number)+"/"+job_id+".tar.gz"
+    pool3.apply_async(delete_downloads.f,(file_path_delete,))
+    if path.exists(file_path_delete):
+    	return send_file(file_path, as_attachment=True)
+    else:
+    	return 'file session expired'	

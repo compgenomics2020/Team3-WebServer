@@ -29,6 +29,7 @@ def insert(obj):
     session.commit()
 
 def update_pipeline_status(JI):
+    print("in updated pipeline")
     #session.query(Customers).filter(Customers.id! = 2). update({Customers.name:"Mr."+Customers.name}, synchronize_session = False)
     #.update(dict(email='my_new_email@example.com'))
     row=session.query(scolia_data).get(JI)
@@ -43,14 +44,23 @@ def get_one(JI):
     return row
 
 def get_job_id_for_emails():
+    print("in get id for emails")
     results = session.query(scolia_data).filter(scolia_data.job_submitted == 1, scolia_data.email_sent == 0)
     required_ids = {}
     for result in results:
         required_ids[result.job_id] = (result.email)
-    return required_ids
+    #print(required_ids)
+    return (required_ids)
 
 
 def update_email_status(JI, email_status):
     row=session.query(scolia_data).get(JI)
     row.email_sent = email_status
     session.commit()
+
+def delete_status(JI):
+    session.query(scoial_data).get(JI).delete()
+    session.commit()
+	
+def clean_db():
+    session.query(scolia_data).delete()

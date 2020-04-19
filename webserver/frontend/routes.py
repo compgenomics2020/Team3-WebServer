@@ -48,7 +48,7 @@ def submit():
 def Functional_Annotation():
 
 	email=request.form.get("ann_email")
-
+	print(email)
 	# check if the post request has the file part
 	if ('file1' not in request.files):
 		resp = jsonify({'message' : 'No file part in the request'})

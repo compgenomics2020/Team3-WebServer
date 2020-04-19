@@ -2,21 +2,43 @@ from flask import Flask
 from webserver.backend import db_util
 import time
 from flask_mail import Mail, Message
+from multiprocessing import Pool
+from webserver.backend import function
+import multiprocessing
 
-DOWNLOAD_URL_PATH = 'http://localhost:5000/download?job_id=:id:'
+DOWNLOAD_URL_PATH = 'http://localhost:5000/download?id=:id:'
 
 def init_email_sender(mail_instance):
     print("::::::::::::::initialising email sender")
+
+    p = multiprocessing.Process(target=f, args=(mail_instance,))
+    p.start()
+
+    #pool2 = Pool(processes=2)
+    #pool2.apply_async(function.f,(10,"",0,))
+    #pool2.join()
+    #pool2.apply_async(function.f,(10,"",0,))
+    #pool2.apply_async(background_email_sender,(mail_instance,))
+
+
+def f(mail_instance):
+    """
+    for i in range(0,x):
+        print(i)
+        time.sleep(1)
+    """
     while True:
-        time.sleep(60)
+        print("**********************while loop*************************")
         required_id = db_util.get_job_id_for_emails()
-        print("HERE"+required_id)
+        print(required_id)
 
         for job_id,email in required_id.items():
             download_url = generate_download_url(job_id)
             send_email(download_url,email,mail_instance)
+        time.sleep(10)
 
 def generate_download_url(job_id):
+    print("***************************2")
     download_url = DOWNLOAD_URL_PATH.replace(':id:',str(job_id))
 
     return download_url
