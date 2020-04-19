@@ -136,7 +136,7 @@ def download_processed_files():
     pipeline_number = row.pipeline_number
     file_path = "."+BASE_OUTPUT_PATH+pipeline_dict.get(pipeline_number)+"/"+job_id+".tar.gz"
     file_path_delete=BASE_OUTPUT_PATH+pipeline_dict.get(pipeline_number)+"/"+job_id+".tar.gz"
-    pool3.apply_async(delete_downloads.f,(file_path_delete,))
+    pool3.apply_async(delete_downloads.f,(file_path_delete,int(job_id),))
     if path.exists(file_path_delete):
     	return send_file(file_path, as_attachment=True)
     else:

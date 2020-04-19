@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import time
+import os 
 from webserver.backend import db_util
 def f(x, input_dir, flag,output_dir):
     for i in range(0,x):
@@ -14,3 +15,5 @@ def f(x, input_dir, flag,output_dir):
         print("done")
         output_file=open(output_dir,"w+")
         output_file.close()	
+        command="rm -r "+input_dir
+        os.system(command)
