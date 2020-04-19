@@ -1,4 +1,5 @@
 from flask import Blueprint, Response
+#from webserver import create_app
 import os
 import urllib.request
 from flask import Flask, request, redirect, jsonify
@@ -8,11 +9,18 @@ from random import randint
 from multiprocessing import Pool
 import time
 import subprocess
-from webserver import functional_annotation 
-#import pipeline_ahish_sonali
+from webserver import mail
+from webserver.backend import models 
+from webserver.backend import db_util 
+from webserver.backend import email_util
+pool = Pool(processes=4)
+
 ALLOWED_EXTENSIONS = set(['gz'])
 UPLOAD_FOLDER = './Input/Functional_Annotation/'
-#from api.models import Process_File
+
+#with app.app_context():
+#pool2 = Pool(processes=4)
+#pool2.apply_async(email_util.init_email_sender,(mail,))
 
 mod=Blueprint('backend',__name__)
 
@@ -28,8 +36,7 @@ def generate_job_id():
     r3 = randint(0,9)
     r2=datetime.today().strftime('%Y%m%d%H%M%S')
     return (str(r1)+r2+str(r3))
-
-
+	
 @mod.route('/send_message_backend')
 def send_message_back(email,filename):
 	msg=Message(
@@ -60,7 +67,8 @@ def get_Output():
 			"attachment; filename=my_test.txt"})
 
 @mod.route('/backend_functional')
-def backend_functional(file1):
+def backend_functional(file1,user_email):
+    flag=0
 	# check if the post request has the file part
     if (file1.filename == '') :
         resp = jsonify({'message' : 'No file selected for uploading'})
@@ -91,9 +99,12 @@ def backend_functional(file1):
        
         print(file1_location)
         
-        #pool = Pool(processes=4)              #start 4 worker processes
-       	#res=pool.apply_async(functional_annotation.Run_Functional, (file1_location))   # evaluate "f(10)" asynchronously in a single process
-        #print (res.get(timeout=1))                
+        pool.apply_async(models.f,(10,file1_location,flag,))   # evaluate "f(10)" asynchronously in a single process
+	
+        if flag == 0:
+            c1 = db_util.scolia_data(job_id = new_filename, email = user_email ,job_submitted = 0, email_sent = 0, pipeline_number = 3)
+            db_util.insert(c1)
+
         return (True)
          
     else:

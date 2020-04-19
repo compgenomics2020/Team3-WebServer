@@ -46,13 +46,16 @@ def submit():
 
 @mod.route('/Functional_Annotation',methods=['POST'])
 def Functional_Annotation():
+
+	email=request.form.get("ann_email")
+
 	# check if the post request has the file part
 	if ('file1' not in request.files):
 		resp = jsonify({'message' : 'No file part in the request'})
 		resp.status_code = 400
 		return resp
 	file1 = request.files['file1']
-	did_send=backend_mod.backend_functional(file1)
+	did_send=backend_mod.backend_functional(file1,email)
 	if did_send:
 		confirm_msg='File Submitted!'
 		return render_template("submit.html",confirm_msg=confirm_msg)
