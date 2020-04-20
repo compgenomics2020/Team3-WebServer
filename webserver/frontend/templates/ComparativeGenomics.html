@@ -27,59 +27,55 @@
 </div>
 
 <!-- main contents-->
-<div class = 'workspace'>
+<form class = 'input' action='/Comparative_Genomics' method="post" enctype="multipart/form-data">
     <div class = 'input'>
         <h2>Input Data</h2>
         <p>Input reference and query files below. Upload all files in FASTA format.</p>
         
-        <div class = 'comp_query'>
+        <div class = 'input'>
             <label>Query Genome(s)</label><br>
-            <input type="file" id="comp_query" multiple></input>
+            <input type="file" id="file1" name="file1"></input>
             <p>Select up to 100 files.</p>
         </div>
         
-        <div class = 'comp_ref'>
+        <div class = 'input'>
             <label>Reference Genome</label><br>
-            <input type="file" id="comp_reference"/></input>
+            <input type="file" id="file2" name="file2"/></input>
             <p>Select 1 file or run against default reference genome.</p>
         </div>
     </div>
     
-    <div class = 'job_info'>
+    <div class = 'input'>
         <div class = 'user_info'>
             <h2>User Information</h2>
             <label>Name:</label>
-            <input type="text" id="comp_name"/></input><br>
+            <input type="text" id="comp_name" name="comp_name"/></input><br>
             <label>Email:</label>
-            <input type="text" id="comp_email"/></input><br>
+            <input type="text" id="comp_email" name="comp_email"/></input><br>
             <label>Job Name:</label>
-            <input type="text" id="comp_job"/></input>
+            <input type="text" id="comp_job" name="comp_job"/></input>
         </div>
-        <div class = 'tool_choice'>
+        <div class = 'input'>
             <h2>Tool Selection</h2>
-            <input type="radio" name="comptool" value="FAST-ANI" checked>
+            <input type="radio" name="fast_ani" checked>
             <label for="FAST-ANI"> FAST-ANI</label><br>
-            <input type="radio" name="comptool" value="StringMLST">
+            <input type="radio" name="string_mlst">
             <label for="StringMLST"> StringMLST</label><br>
-            <input type="radio" name="comptool" value="kSNP">
+            <input type="radio" name="ksnp">
             <label for="kSNP"> kSNP</label><br>
-            <input type="radio" name="comptool" value="BPGA">
-            <label for="BPGA"> BPGA</label><br>
-            <input type="radio" name="comptool" value="Roary">
-            <label for="Roary"> Roary</label>
         </div>
     </div>
     
     <br>
     <br>
-    <button type="submit" name="submit" class="btn btn-primary"><i class="fa fa-search"></i>Submit</button>
-    <button type="reset" name="reset" class="btn btn-primary">Reset</button>
+    <input type="submit" value="Submit">
+    <input type="reset" value="Reset">
     
     
     <div class = 'description'>
     
     </div>
-</div>
+</form>
 
 </body>
 </html>

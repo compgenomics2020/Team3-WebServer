@@ -15,15 +15,6 @@ def homepage():
 def genomeassembly():
     return render_template("GenomeAssembly.html")
 
-@mod.route("/send_message",methods=['POST'])
-def send_message():
-	email_usr=request.form.get('assem_email')
-	directory="../downloads"
-	did_send=backend_mod.send_message_back(email_usr,directory)
-	if did_send:
-		confirm_msg='Your message has been sent!'
-		return render_template("submit.html",confirm_msg=confirm_msg)
-
 @mod.route("/geneprediction")
 def geneprediction():
     return render_template("GenePrediction.html")
@@ -44,19 +35,98 @@ def aboutus():
 def submit():
     return render_template("submit.html")
 
+@mod.route('/Genome_Assembly',methods=['POST'])
+def Genome_Assembly():
+	Tools=[]
+	email=request.form.get("assem_email")
+	needs_trimming=request.form.get("needs_trimming")
+	if needs_trimming=='on':
+		Tools=Tools+['trim']
+	spades=request.form.get("spades")
+	if spades == 'on':
+		Tools=Tools+['spades']
+	skesa=request.form.get("skesa")
+	if skesa == 'on':
+		Tools=Tools+['skesa']
+	if ('file1' not in request.files):
+		resp=jsonify({'message' : 'No file part in the request'})
+		resp.status_code = 400
+		return resp
+	file1 = request.files['file1']
+	files=[file1]
+	did_send=backend_mod.backend_setup(files,email,1,Tools)
+	if did_send:
+		confirm_msg='File Submitted!'
+		return render_template("submit.html",confirm_msg=confirm_msg)
+@mod.route('/Gene_Prediction',methods=['POST'])
+def Gene_Prediction():
+	Tools=[]
+	email=request.form.get('gen_email')
+	if ('file1' not in request.files) or ('file2' not in request.files):
+		resp = jsonify({'message' : 'No file part in the request'})
+		resp.status_code = 400
+		return resp
+	file1 = request.files['file1']
+	file2 = request.files['file2']
+	files=[file1,file2]
+	did_send=backend_mod.backend_setup(files,email,2,Tools)
+	if did_send:
+		confirm_msg='File Submitted!'
+		return render_template("submit.html",confirm_msg=confirm_msg)
 @mod.route('/Functional_Annotation',methods=['POST'])
 def Functional_Annotation():
-
+	Tools=[]
 	email=request.form.get("ann_email")
-	print(email)
+	card_rgi=request.form.get("card_rgi")
+	if card_rgi == 'on':
+		Tools=Tools+['card_rgi']
+	vfdb=request.form.get("vfdb")
+	if vfdb == 'on':
+		Tools=Tools+['vfdb']
+	eggnog=request.form.get("eggnog")
+	if eggnog == 'on':
+		Tools=Tools+['eggnog']
+	pilercr=request.form.get("pilercr")
+	if pilercr == 'on':
+		Tools=Tools+['pilercr']
+	#print(email)
 	# check if the post request has the file part
 	if ('file1' not in request.files):
 		resp = jsonify({'message' : 'No file part in the request'})
 		resp.status_code = 400
 		return resp
 	file1 = request.files['file1']
-	did_send=backend_mod.backend_functional(file1,email)
+	files=[file1]
+	did_send=backend_mod.backend_setup(files,email,3,Tools)
 	if did_send:
 		confirm_msg='File Submitted!'
 		return render_template("submit.html",confirm_msg=confirm_msg)
-	
+@mod.route('/Comparative_Genomics',methods=['POST'])
+def Comparative_Genomics():
+	Tools=[]
+	email=request.form.get("comp_email")
+	fast_ani=request.form.get("fast_ani")
+	if fast_ani == 'on':
+		Tools=Tools+['fast_ani']
+	string_mlst=request.form.get("string_mlst")
+	if string_mlst == 'on':
+		Tools=Tools+['string_mlst']
+	ksnp=request.form.get("ksnp")
+	if ksnp == 'on':
+		Tools=Tools+['ksnp']
+	#print(ksnp)
+	#print(Tools)
+	if ('file1' not in request.files):
+                resp = jsonify({'message' : 'No file part in the request'})
+                resp.status_code = 400
+                return resp
+	file1 = request.files['file1']
+	file2 = request.files['file2']
+	if file2.filename =='':
+		files=[file1]
+	else:
+		files=[file1,file2]
+	did_send=backend_mod.backend_setup(files,email,4,Tools)
+	if did_send:
+		confirm_msg='File Submitted!'
+		return render_template("submit.html",confirm_msg=confirm_msg)

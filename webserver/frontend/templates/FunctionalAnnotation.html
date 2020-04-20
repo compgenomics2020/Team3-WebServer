@@ -33,7 +33,7 @@
         <p>Allowed format: FASTA files from gene prediction output in "gz" folder</p>
         <label>Query Genome(s)</label><br>
         <input type="file" id="file1" name="file1"></input>
-        <p>Select up to 50 files.</p>
+        <p>Select up to 10 files.</p>
     </div>
 
     <div class = 'input'>
@@ -59,19 +59,14 @@
 	<div class = 'tool_choice'>
             <h2>Annotation Tool</h2>
             <p>Select which functional annotation tool(s) to use:</p>
-            <input type="checkbox" name="anntool1" value="CARD-rgi" checked>
-            <label for="anntool1"> CARD-rgi</label><br>
-            <input type="checkbox" name="anntool2" value="VDFB" checked>
-            <label for="anntool2"> VDFB</label><br>
-            <input type="checkbox" name="anntool3" value="eggNOG">
-            <label for="anntool3"> eggNOG</label><br>
-            <input type="checkbox" name="anntool4" value="Pilercr">
-            <label for="anntool4"> Pilercr</label><br>
-            <input type="checkbox" name="anntool5" value="SignalP">
-            <label for="anntool5"> SignalP</label><br>
-            <input type="checkbox" name="anntool6" value="HMMTOP">
-            <label for="anntool6"> HMMTOP</label><br>
-
+            <input type="checkbox" name="card_rgi" checked>
+            <label for="card_rgi"> CARD-rgi</label><br>
+            <input type="checkbox" name="vfdb" checked>
+            <label for="vfdb"> VDFB</label><br>
+            <input type="checkbox" name="eggnog">
+            <label for="eggnog"> eggNOG</label><br>
+            <input type="checkbox" name="pilercr">
+            <label for="pilercr"> Pilercr</label><br>
         </div>
     </div>
 

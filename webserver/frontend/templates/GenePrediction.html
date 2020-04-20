@@ -28,43 +28,41 @@
 </div>
 
 <!-- main contents-->
-<div class = 'workspace'>
+<form class = 'input' action='/Gene_Prediction' method="post" enctype="multipart/form-data"'>
     <div class = 'gene_pred1'>
         <h2>Input Data</h2>
         <p>1. Assembled FASTA files:</p>
-        <input type="file" id="ann_query" multiple></input>
+        <input type="file" id="file1" name="file1"></input>
         <p>Select up to 10 files (zipped folder)</p>
         <p>2. Query species CDS in FASTA format:</p>
-        <input type="file" id="ann_query"></input>
+        <input type="file" id="file2" name="file2"></input>
     </div>
 
     <div class = 'gene_pred2'>
         <div class = 'user_info'>
             <h2>User Information</h2>
-	    <form>
+	    <div>
             <label>Name:</label>
-            <input type="text" id="ann_name"/></input><br>
+            <input type="text" id="ann_name" name="gen_name"/></input><br>
             <label>Email:</label>
-            <input type="text" id="ann_email"/></input><br>
+            <input type="text" id="ann_email" name="gen_email"/></input><br>
             <label>Job Name:</label>
-            <input type="text" id="ann_job"/></input>
+            <input type="text" id="ann_job" name="gen_job"/></input>
 	    <br>
 	    <br>
             <p style="text-align:right">	    
-	    <!--<a href="/submit" class = 'btn'>Submit</a>-->
-            <a href="/submit" type="reset" class = 'btn'}>Go!</a>
-	    <button type="reset" class="btn btn-primary">Reset</button>
 	    </p>
-	    </form>
+	    </div>
         </div>
     </div>
 
     <br>
     <br>
-
+    <input type="submit" value="Submit">
+    <input type="reset" value="Reset">
     <div class = 'description'>
     </div>
-</div>
+</form>
 
 </body>
 

@@ -22,7 +22,9 @@ pool3=Pool(processes=4)
 from flask import send_file
 from webserver.backend import delete_downloads
 ALLOWED_EXTENSIONS = set(['gz'])
-UPLOAD_FOLDER = './Input/Functional_Annotation/'
+
+UPLOAD_FOLDER = './Input/'
+
 BASE_OUTPUT_PATH = './Output/'
 #mail=Mail(current_app)
 current_app.config.update(
@@ -37,7 +39,7 @@ mail=Mail(current_app)
 with current_app.app_context():
 	email_util.init_email_sender(mail)
 
-pipeline_dict = {1:'Genome_Assembly', 2:'Gene_Prediction', 3:'Functional_Annotation', 4:'Comparitive Genomics'}
+pipeline_dict = {1:'Genome_Assembly', 2:'Gene_Prediction', 3:'Functional_Annotation', 4:'Comparative_Genomics'}
 mod=Blueprint('backend',__name__)
 
 def allowed_file(filename):
@@ -52,82 +54,139 @@ def generate_job_id():
     r3 = randint(0,9)
     r2=datetime.today().strftime('%Y%m%d%H%M%S')
     return (str(r1)+r2+str(r3))
-	
-@mod.route('/send_message_backend')
-def send_message_back(email,filename):
-	msg=Message(
-		subject='Scolia output',
-		sender='scoliagatech@gmail.com',
-		reciepients=
-			[email])
-	with mod.open_resource("../downloads/test.txt") as fp:
-		msg.attach("test.txt","test/txt",fp.read())
-	mail.send(msg)
-	confirm_msg = 'Your message has been sent!'
-	return (True)
-@mod.route("/download_display")
-def download_display():
-	return'''
-	<html><body>
-	Hello. <a href="/backend/get_Output">Click me.</a>
-	</body></html>
-	'''
-@mod.route('/get_Output')
-def get_Output():
-	with mod.open_resource("../downloads/test.txt") as fp:
-                test=fp.read()
-	return Response(
-		test,
-		mimetype="text/plain",
-		headers={"Content-disposition":
-			"attachment; filename=my_test.txt"})
 
-@mod.route('/backend_functional')
-def backend_functional(file1,user_email):
+##########################################LOOK FROM HERE#############################################
+
+@mod.route('/backend_assembly')
+def backend_assembly(new_filename, user_email,pipeline_num,tools,file1_location):
+    flag=0
+    #MAKE OUTPUT PATH SPECIFIC FOR YOUR TOOL THIS IS JUST A TEST OUTPUT PATH
+    output_path=BASE_OUTPUT_PATH+"Genome_Assembly/"+new_filename+".tar.gz"
+    #THIS IS JUST AN EXAMPLE FUNCTION
+    pool.apply_async(models.f,(10,file1_location,flag,output_path))
+    if flag == 0:
+    	c1 = db_util.scolia_data(job_id = new_filename, email = user_email ,job_submitted = 0, email_sent = 0, pipeline_number = 3)
+    	db_util.insert(c1)
+    return(True)
+
+@mod.route('/backend_prediction')
+def backend_prediction(new_filename, user_email,pipeline_num,tools,file1_location,file2_location):
+    flag=0
+    #MAKE OUTPUT PATH SPECIFIC FOR YOUR TOOL THIS IS JUST A TEST OUTPUT PATH
+    output_path=BASE_OUTPUT_PATH+"Gene_Prediction/"+new_filename+".tar.gz"
+    #THIS IS JUST AN EXAMPLE FUNCTION
+    pool.apply_async(models.f,(10,file1_location,flag,output_path))
+    if flag == 0:
+    	c1 = db_util.scolia_data(job_id = new_filename, email = user_email ,job_submitted = 0, email_sent = 0, pipeline_number = 3)
+    	db_util.insert(c1)
+    return(True)
+
+@mod.route('/backend_function')
+def backend_function(new_filename, user_email,pipeline_num,tools,file1_location):
+    print(tools)
+    flag=0
+    output_path=BASE_OUTPUT_PATH+"Functional_Annotation/"+new_filename+".tar.gz" 
+    pool.apply_async(models.f,(10,file1_location,flag,output_path))
+    if flag == 0:
+    	c1 = db_util.scolia_data(job_id = new_filename, email = user_email ,job_submitted = 0, email_sent = 0, pipeline_number = 3)
+    	db_util.insert(c1)
+    return(True)
+
+@mod.route('/backend_comparative_with_reference')
+def backend_comparative_with_reference(new_filename, user_email,pipeline_num,tools,file1_location,file2_location):
+    flag=0
+    #MAKE OUTPUT PATH SPECIFIC FOR YOUR TOOL THIS IS JUST A TEST OUTPUT PATH
+    output_path=BASE_OUTPUT_PATH+"Comparative_Genomics/"+new_filename+".tar.gz"
+    #THIS IS JUST AN EXAMPLE FUNCTION
+    pool.apply_async(models.f,(10,file1_location,flag,output_path))
+    if flag == 0:
+    	c1 = db_util.scolia_data(job_id = new_filename, email = user_email ,job_submitted = 0, email_sent = 0, pipeline_number = 3)
+    	db_util.insert(c1)
+    return(True)
+
+@mod.route('/backend_comparative_no_reference')
+def backend_comparative_no_reference(new_filename, user_email,pipeline_num,tools,file1_location):
+    flag=0
+    #MAKE OUTPUT PATH SPECIFIC FOR YOUR TOOL THIS IS JUST A TEST OUTPUT PATH
+    output_path=BASE_OUTPUT_PATH+"Comparative_Genomics/"+new_filename+".tar.gz"
+    #THIS IS JUST AN EXAMPLE FUNCTION
+    pool.apply_async(models.f,(10,file1_location,flag,output_path))
+    if flag == 0:
+    	c1 = db_util.scolia_data(job_id = new_filename, email = user_email ,job_submitted = 0, email_sent = 0, pipeline_number = 3)
+    	db_util.insert(c1)
+    return(True)
+
+##########################################TO HERE FOR YOUR FUNCTION#######################################
+
+@mod.route('/backend_setup')
+def backend_setup(files,user_email,pipeline_num,tools):
+    UPLOAD_FOLDER = './Input/'
+    new_filename = generate_job_id()
     print(user_email)
     flag=0
-	# check if the post request has the file part
-    if (file1.filename == '') :
-        resp = jsonify({'message' : 'No file selected for uploading'})
-        resp.status_code = 400
-        return resp
-    if (file1) and (allowed_file(file1.filename)) :
-        filename1 = secure_filename(file1.filename)
-        file1.save(os.path.join(UPLOAD_FOLDER, filename1))
-        resp = jsonify({'message' : 'File successfully uploaded'})
-        resp.status_code = 201
-         
 
-        new_filename = generate_job_id()
-            
-        ###Moving files to job ID folder####
-        subprocess.run("mkdir ./Input/Functional_Annotation/"+new_filename, shell = True)
-        subprocess.run("mv ./Input/Functional_Annotation/"+file1.filename+" ./Input/Functional_Annotation/" +new_filename+"/", shell = True)
-        #print(file2.filename)
-            
-        #######Unzipping the gz folder######
-        subprocess.run("tar -C ./Input/Functional_Annotation/"+new_filename +"/ -zxvf ./Input/Functional_Annotation/"+new_filename+"/"+file1.filename, shell = True)
-        subprocess.run("rm "+"./Input/Functional_Annotation/"+new_filename+"/"+file1.filename, shell = True)
+##################SETS UP FUNCTIONS WITH TWO FILE INPUTS##############################
+    if len(files)>1:
+    	file1=files[0]
+    	file2=files[1]
+    	if (file2.filename == '') or (file1.filename=='') :
+    		resp = jsonify({'message' : 'No file selected for uploading'})
+    		resp.status_code = 400
+    		return resp
+    	if (file1 and file2) and (allowed_file(file1.filename)) :
+    		filename1 = secure_filename(file1.filename)
+    		UPLOAD_FOLDER=UPLOAD_FOLDER+pipeline_dict.get(pipeline_num)+"/"
+    		file1.save(os.path.join(UPLOAD_FOLDER, filename1))
+    		filename2=secure_filename(file2.filename)
+    		file2.save(os.path.join(UPLOAD_FOLDER, filename2))
+    		resp = jsonify({'message' : 'File successfully uploaded'})
+    		resp.status_code = 201
+    		
+    		subprocess.run("mkdir "+UPLOAD_FOLDER+new_filename, shell = True)
+    		subprocess.run("mv "+UPLOAD_FOLDER+file1.filename+" "+UPLOAD_FOLDER+new_filename+"/", shell = True)
+    		subprocess.run("mv "+UPLOAD_FOLDER+file2.filename+" "+UPLOAD_FOLDER+new_filename+"/", shell = True)
+    		file1_location=UPLOAD_FOLDER+new_filename+"/"+file1.filename.rsplit('.')[0]
+    		file2_location=UPLOAD_FOLDER+new_filename+"/"+file2.filename
+    		subprocess.run("tar -C "+UPLOAD_FOLDER+new_filename +"/ -zxvf "+UPLOAD_FOLDER+new_filename+"/"+file1.filename, shell = True)
+    		subprocess.run("rm "+UPLOAD_FOLDER+new_filename+"/"+file1.filename, shell = True)
+    	if pipeline_num==2:
+    		result=backend_prediction(new_filename,user_email,pipeline_num,tools,file1_location,file2_location)
+    		return(result)
+    	if pipeline_num==4:
+    		result=backend_comparative_with_reference(new_filename,user_email,pipeline_num,tools,file1_location,file2_location)
+    		return(result)
 
-       ###########async call############
-        
-        file1_location = "./Input/Functional_Annotation/"+new_filename+"/"+file1.filename.rsplit('.')[0]
-        #file2_location = "./Input/Gene_Prediction/"+new_filename+"/"+file2.filename
-       
-        print(file1_location)
-        output_path=BASE_OUTPUT_PATH+"Functional_Annotation/"+new_filename+".tar.gz"        
-        pool.apply_async(models.f,(10,file1_location,flag,output_path))   # evaluate "f(10)" asynchronously in a single process
+##########SETS UP FUNCTIONS WITH ONLY 1 FILE INPUT######################### 	            
+    elif len(files)<=1:
+    	file1=files[0]
+    	if (file1.filename == ''):
+    		resp= jsonify({'message' : 'No file selected for uploading'})
+    		resp.status_code = 400
+    		return resp
+    	if (file1) and (allowed_file(file1.filename)):
+    		filename1=secure_filename(file1.filename)
+    		UPLOAD_FOLDER=UPLOAD_FOLDER+pipeline_dict.get(pipeline_num)+"/"
+    		file1.save(os.path.join(UPLOAD_FOLDER,filename1))
+    		subprocess.run("mkdir "+UPLOAD_FOLDER+new_filename, shell = True)
+    		subprocess.run("mv "+UPLOAD_FOLDER+file1.filename+" "+UPLOAD_FOLDER+new_filename+"/", shell = True)
+    		file1_location=UPLOAD_FOLDER+new_filename+"/"+file1.filename.rsplit('.')[0]
+    		subprocess.run("tar -C "+UPLOAD_FOLDER+new_filename +"/ -zxvf "+UPLOAD_FOLDER+new_filename+"/"+file1.filename, shell = True)
+    		subprocess.run("rm "+UPLOAD_FOLDER+new_filename+"/"+file1.filename, shell = True)
+
+    		if pipeline_num==3:
+    			result=backend_function(new_filename,user_email,pipeline_num,tools,file1_location)
+    			return(result)
+    		if pipeline_num==1:
+    			result=backend_assembly(new_filename,user_email,pipeline_num,tools,file1_location)
+    			return(result)
+    		if pipeline_num==4:
+    			result=backend_comparative_no_reference(new_filename,user_email,pipeline_num,tools,file1_location)
+    			return(result)
 	
-        if flag == 0:
-            c1 = db_util.scolia_data(job_id = new_filename, email = user_email ,job_submitted = 0, email_sent = 0, pipeline_number = 3)
-            db_util.insert(c1)
-            #print(db_util.get_job_id_for_emails())
-        return (True)
-         
-    else:
-       	resp = jsonify({'message' : 'Allowed format is gzip for FASTA files'})
-        resp.status_code = 400
-        return resp
+    	else:
+    		resp = jsonify({'message' : 'Allowed format is gzip for FASTA files'})
+    		resp.status_code = 400
+    		return resp
 
 @mod.route("/download", methods=['GET'])
 def download_processed_files():
