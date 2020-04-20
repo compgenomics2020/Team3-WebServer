@@ -22,6 +22,7 @@ pool3=Pool(processes=4)
 from flask import send_file
 from webserver.backend import delete_downloads
 ALLOWED_EXTENSIONS = set(['gz'])
+ALLOWED_EXTENSIONS2 = set(['fasta', 'fna'])
 
 UPLOAD_FOLDER = './Input/'
 
