@@ -3,7 +3,7 @@ from webserver.backend import db_util
 import time
 from flask_mail import Mail, Message
 from multiprocessing import Pool
-from webserver.backend import function
+#from webserver.backend import function
 import multiprocessing
 
 DOWNLOAD_URL_PATH = 'http://localhost:5000/download?id=:id:'

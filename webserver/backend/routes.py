@@ -46,6 +46,8 @@ mod=Blueprint('backend',__name__)
 def allowed_file(filename):
     #print(filename.rsplit('.', 1)[1].lower())
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+def allowed_file2(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS2
 """
 def allowed_format(filename):
         return
@@ -59,7 +61,7 @@ def generate_job_id():
 ##########################################LOOK FROM HERE#############################################
 
 @mod.route('/backend_assembly')
-def backend_assembly(new_filename, user_email,pipeline_num,tools,file1_location):
+def backend_assembly(new_filename, user_email,pipeline_num,tools,file1_location,download_folder):
     flag=0
     #MAKE OUTPUT PATH SPECIFIC FOR YOUR TOOL THIS IS JUST A TEST OUTPUT PATH
     subprocess.run("mkdir "+BASE_OUTPUT_PATH+"Genome_Assembly/"+new_filename, shell = True)
@@ -67,12 +69,12 @@ def backend_assembly(new_filename, user_email,pipeline_num,tools,file1_location)
     #THIS IS JUST AN EXAMPLE FUNCTION
     pool.apply_async(models.f,(10,file1_location,flag,output_path))
     if flag == 0:
-    	c1 = db_util.scolia_data(job_id = new_filename, email = user_email ,job_submitted = 0, email_sent = 0, pipeline_number = 3)
+    	c1 = db_util.scolia_data(job_id = new_filename, email = user_email ,job_submitted = 0, email_sent = 0, pipeline_number = pipeline_num)
     	db_util.insert(c1)
     return(True)
 
 @mod.route('/backend_prediction')
-def backend_prediction(new_filename, user_email,pipeline_num,tools,file1_location,file2_location):
+def backend_prediction(new_filename, user_email,pipeline_num,tools,file1_location,file2_location,download_folder):
     flag=0
     #MAKE OUTPUT PATH SPECIFIC FOR YOUR TOOL THIS IS JUST A TEST OUTPUT PATH
     subprocess.run("mkdir "+BASE_OUTPUT_PATH+"Gene_Prediction/"+new_filename, shell = True)
@@ -80,24 +82,24 @@ def backend_prediction(new_filename, user_email,pipeline_num,tools,file1_locatio
     #THIS IS JUST AN EXAMPLE FUNCTION
     pool.apply_async(models.f,(10,file1_location,flag,output_path))
     if flag == 0:
-    	c1 = db_util.scolia_data(job_id = new_filename, email = user_email ,job_submitted = 0, email_sent = 0, pipeline_number = 3)
+    	c1 = db_util.scolia_data(job_id = new_filename, email = user_email ,job_submitted = 0, email_sent = 0, pipeline_number = pipeline_num)
     	db_util.insert(c1)
     return(True)
 
 @mod.route('/backend_function')
-def backend_function(new_filename, user_email,pipeline_num,tools,file1_location):
+def backend_function(new_filename, user_email,pipeline_num,tools,file1_location,download_folder):
     print(tools)
     flag=0
     subprocess.run("mkdir "+BASE_OUTPUT_PATH+"Functional_Annotation/"+new_filename, shell = True)
     output_path=BASE_OUTPUT_PATH+"Functional_Annotation/"+new_filename+".tar.gz" 
     pool.apply_async(models.f,(10,file1_location,flag,output_path))
     if flag == 0:
-    	c1 = db_util.scolia_data(job_id = new_filename, email = user_email ,job_submitted = 0, email_sent = 0, pipeline_number = 3)
+    	c1 = db_util.scolia_data(job_id = new_filename, email = user_email ,job_submitted = 0, email_sent = 0, pipeline_number = pipeline_num)
     	db_util.insert(c1)
     return(True)
 
 @mod.route('/backend_comparative_with_reference')
-def backend_comparative_with_reference(new_filename, user_email,pipeline_num,tools,file1_location,file2_location):
+def backend_comparative_with_reference(new_filename, user_email,pipeline_num,tools,file1_location,file2_location,download_folder):
     flag=0
     #MAKE OUTPUT PATH SPECIFIC FOR YOUR TOOL THIS IS JUST A TEST OUTPUT PATH
     subprocess.run("mkdir "+BASE_OUTPUT_PATH+"Comparitive_Genomics/"+new_filename, shell = True)
@@ -105,12 +107,12 @@ def backend_comparative_with_reference(new_filename, user_email,pipeline_num,too
     #THIS IS JUST AN EXAMPLE FUNCTION
     pool.apply_async(models.f,(10,file1_location,flag,output_path))
     if flag == 0:
-    	c1 = db_util.scolia_data(job_id = new_filename, email = user_email ,job_submitted = 0, email_sent = 0, pipeline_number = 3)
+    	c1 = db_util.scolia_data(job_id = new_filename, email = user_email ,job_submitted = 0, email_sent = 0, pipeline_number = pipeline_num)
     	db_util.insert(c1)
     return(True)
 
 @mod.route('/backend_comparative_no_reference')
-def backend_comparative_no_reference(new_filename, user_email,pipeline_num,tools,file1_location):
+def backend_comparative_no_reference(new_filename, user_email,pipeline_num,tools,file1_location,download_folder):
     flag=0
     #MAKE OUTPUT PATH SPECIFIC FOR YOUR TOOL THIS IS JUST A TEST OUTPUT PATH
     subprocess.run("mkdir "+BASE_OUTPUT_PATH+"Comparitive_Genomics/"+new_filename, shell = True)
@@ -118,7 +120,7 @@ def backend_comparative_no_reference(new_filename, user_email,pipeline_num,tools
     #THIS IS JUST AN EXAMPLE FUNCTION
     pool.apply_async(models.f,(10,file1_location,flag,output_path))
     if flag == 0:
-    	c1 = db_util.scolia_data(job_id = new_filename, email = user_email ,job_submitted = 0, email_sent = 0, pipeline_number = 3)
+    	c1 = db_util.scolia_data(job_id = new_filename, email = user_email ,job_submitted = 0, email_sent = 0, pipeline_number = pipeline_num)
     	db_util.insert(c1)
     return(True)
 
@@ -130,7 +132,7 @@ def backend_setup(files,user_email,pipeline_num,tools):
     new_filename = generate_job_id()
     print(user_email)
     flag=0
-
+    DOWNLOAD_FOLDER=BASE_OUTPUT_PATH+pipeline_dict.get(pipeline_num)+"/"
 ##################SETS UP FUNCTIONS WITH TWO FILE INPUTS##############################
     if len(files)>1:
     	file1=files[0]
@@ -139,7 +141,10 @@ def backend_setup(files,user_email,pipeline_num,tools):
     		resp = jsonify({'message' : 'No file selected for uploading'})
     		resp.status_code = 400
     		return resp
-    	if (file1 and file2) and (allowed_file(file1.filename)) :
+    	if (file1 and file2) and (allowed_file(file1.filename)) and (allowed_file2(file2.filename)) :
+    		completed=subprocess.run(["mkdir",DOWNLOAD_FOLDER+new_filename], stdout=subprocess.PIPE,)
+    		print('returncode:', completed.returncode)
+    		print('Have {} bytes in stdout:\n{}'.format(len(completed.stdout),completed.stdout.decode('utf-8')))
     		filename1 = secure_filename(file1.filename)
     		UPLOAD_FOLDER=UPLOAD_FOLDER+pipeline_dict.get(pipeline_num)+"/"
     		file1.save(os.path.join(UPLOAD_FOLDER, filename1))
@@ -148,18 +153,28 @@ def backend_setup(files,user_email,pipeline_num,tools):
     		resp = jsonify({'message' : 'File successfully uploaded'})
     		resp.status_code = 201
     		
-    		subprocess.run("mkdir "+UPLOAD_FOLDER+new_filename, shell = True)
-    		subprocess.run("mv "+UPLOAD_FOLDER+file1.filename+" "+UPLOAD_FOLDER+new_filename+"/", shell = True)
-    		subprocess.run("mv "+UPLOAD_FOLDER+file2.filename+" "+UPLOAD_FOLDER+new_filename+"/", shell = True)
+    		completed=subprocess.run(["mkdir",UPLOAD_FOLDER+new_filename], stdout=subprocess.PIPE,)
+    		print('returncode:', completed.returncode)
+    		print('Have {} bytes in stdout:\n{}'.format(len(completed.stdout),completed.stdout.decode('utf-8')))
+    		completed=subprocess.run(["mv",UPLOAD_FOLDER+file1.filename,UPLOAD_FOLDER+new_filename+"/"], stdout=subprocess.PIPE,)
+    		print('returncode:', completed.returncode)
+    		print('Have {} bytes in stdout:\n{}'.format(len(completed.stdout),completed.stdout.decode('utf-8')))
+    		completed=subprocess.run(["mv",UPLOAD_FOLDER+file2.filename,UPLOAD_FOLDER+new_filename+"/"], stdout=subprocess.PIPE,)
+    		print('returncode:', completed.returncode)
+    		print('Have {} bytes in stdout:\n{}'.format(len(completed.stdout),completed.stdout.decode('utf-8')))    		
     		file1_location=UPLOAD_FOLDER+new_filename+"/"+file1.filename.rsplit('.')[0]
     		file2_location=UPLOAD_FOLDER+new_filename+"/"+file2.filename
-    		subprocess.run("tar -C "+UPLOAD_FOLDER+new_filename +"/ -zxvf "+UPLOAD_FOLDER+new_filename+"/"+file1.filename, shell = True)
-    		subprocess.run("rm "+UPLOAD_FOLDER+new_filename+"/"+file1.filename, shell = True)
+    		completed=subprocess.run(["tar","-C",UPLOAD_FOLDER+new_filename+"/","-zxvf",UPLOAD_FOLDER+new_filename+"/"+file1.filename], stdout=subprocess.PIPE,)
+    		print('returncode:', completed.returncode)
+    		print('Have {} bytes in stdout:\n{}'.format(len(completed.stdout),completed.stdout.decode('utf-8')))
+    		completed=subprocess.run(["rm",UPLOAD_FOLDER+new_filename+"/"+file1.filename], stdout=subprocess.PIPE,)
+    		print('returncode:', completed.returncode)
+    		print('Have {} bytes in stdout:\n{}'.format(len(completed.stdout),completed.stdout.decode('utf-8')))
     	if pipeline_num==2:
-    		result=backend_prediction(new_filename,user_email,pipeline_num,tools,file1_location,file2_location)
+    		result=backend_prediction(new_filename,user_email,pipeline_num,tools,file1_location,file2_location,DOWNLOAD_FOLDER)
     		return(result)
     	if pipeline_num==4:
-    		result=backend_comparative_with_reference(new_filename,user_email,pipeline_num,tools,file1_location,file2_location)
+    		result=backend_comparative_with_reference(new_filename,user_email,pipeline_num,tools,file1_location,file2_location,DOWNLOAD_FOLDER)
     		return(result)
 
 ##########SETS UP FUNCTIONS WITH ONLY 1 FILE INPUT######################### 	            
@@ -173,22 +188,34 @@ def backend_setup(files,user_email,pipeline_num,tools):
     		filename1=secure_filename(file1.filename)
     		UPLOAD_FOLDER=UPLOAD_FOLDER+pipeline_dict.get(pipeline_num)+"/"
     		file1.save(os.path.join(UPLOAD_FOLDER,filename1))
-    		subprocess.run("mkdir "+UPLOAD_FOLDER+new_filename, shell = True)
-		subprocess.run("mkdir "+DOWNLOAD_FOLDER+new_filename, shell = True)
-		subprocess.run("mkdir "+DOWNLOAD_FOLDER+new_filename, shell = True)
-    		subprocess.run("mv "+UPLOAD_FOLDER+file1.filename+" "+UPLOAD_FOLDER+new_filename+"/", shell = True)
+    		completed=subprocess.run(["mkdir",UPLOAD_FOLDER+new_filename],stdout=subprocess.PIPE,)
+    		print('returncode:', completed.returncode)
+    		print('Have {} bytes in stdout:\n{}'.format(len(completed.stdout),completed.stdout.decode('utf-8')))
+    		completed=subprocess.run(["mkdir",DOWNLOAD_FOLDER+new_filename], stdout=subprocess.PIPE,)
+    		print('returncode:', completed.returncode)
+    		print('Have {} bytes in stdout:\n{}'.format(len(completed.stdout),completed.stdout.decode('utf-8')))
+    		#completed=subprocess.run(["mkdir",DOWNLOAD_FOLDER+new_filename], stdout=subprocess.PIPE,)
+    		#print('returncode:', completed.returncode)
+    		#print('Have {} bytes in stdout:\n{}'.format(len(completed.stdout),completed.stdout.decode('utf-8')))
+    		completed=subprocess.run(["mv",UPLOAD_FOLDER+file1.filename,UPLOAD_FOLDER+new_filename+"/"], stdout=subprocess.PIPE,)
+    		print('returncode:', completed.returncode)
+    		print('Have {} bytes in stdout:\n{}'.format(len(completed.stdout),completed.stdout.decode('utf-8')))
     		file1_location=UPLOAD_FOLDER+new_filename+"/"+file1.filename.rsplit('.')[0]
-    		subprocess.run("tar -C "+UPLOAD_FOLDER+new_filename +"/ -zxvf "+UPLOAD_FOLDER+new_filename+"/"+file1.filename, shell = True)
-    		subprocess.run("rm "+UPLOAD_FOLDER+new_filename+"/"+file1.filename, shell = True)
+    		completed=subprocess.run(["tar","-C",UPLOAD_FOLDER+new_filename+"/","-zxvf",UPLOAD_FOLDER+new_filename+"/"+file1.filename], stdout=subprocess.PIPE,)
+    		print('returncode:', completed.returncode)
+    		print('Have {} bytes in stdout:\n{}'.format(len(completed.stdout),completed.stdout.decode('utf-8')))
+    		completed=subprocess.run(["rm",UPLOAD_FOLDER+new_filename+"/"+file1.filename], stdout=subprocess.PIPE,)
+    		print('returncode:', completed.returncode)
+    		print('Have {} bytes in stdout:\n{}'.format(len(completed.stdout),completed.stdout.decode('utf-8')))
 
     		if pipeline_num==3:
-    			result=backend_function(new_filename,user_email,pipeline_num,tools,file1_location)
+    			result=backend_function(new_filename,user_email,pipeline_num,tools,file1_location,DOWNLOAD_FOLDER)
     			return(result)
     		if pipeline_num==1:
-    			result=backend_assembly(new_filename,user_email,pipeline_num,tools,file1_location)
+    			result=backend_assembly(new_filename,user_email,pipeline_num,tools,file1_location,DOWNLOAD_FOLDER)
     			return(result)
     		if pipeline_num==4:
-    			result=backend_comparative_no_reference(new_filename,user_email,pipeline_num,tools,file1_location)
+    			result=backend_comparative_no_reference(new_filename,user_email,pipeline_num,tools,file1_location,DOWNLOAD_FOLDER)
     			return(result)
 	
     	else:
@@ -203,7 +230,7 @@ def download_processed_files():
     pipeline_number = row.pipeline_number
     file_path = "."+BASE_OUTPUT_PATH+pipeline_dict.get(pipeline_number)+"/"+job_id+".tar.gz"
     file_path_delete=BASE_OUTPUT_PATH+pipeline_dict.get(pipeline_number)+"/"+job_id+".tar.gz"
-    #pool3.apply_async(delete_downloads.f,(file_path_delete,int(job_id),))
+    pool3.apply_async(delete_downloads.f,(file_path_delete,int(job_id),))
     if path.exists(file_path_delete):
     	return send_file(file_path, as_attachment=True)
     else:
