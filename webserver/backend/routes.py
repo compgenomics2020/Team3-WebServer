@@ -62,6 +62,7 @@ def generate_job_id():
 def backend_assembly(new_filename, user_email,pipeline_num,tools,file1_location):
     flag=0
     #MAKE OUTPUT PATH SPECIFIC FOR YOUR TOOL THIS IS JUST A TEST OUTPUT PATH
+    subprocess.run("mkdir "+BASE_OUTPUT_PATH+"Genome_Assembly/"+new_filename, shell = True)
     output_path=BASE_OUTPUT_PATH+"Genome_Assembly/"+new_filename+".tar.gz"
     #THIS IS JUST AN EXAMPLE FUNCTION
     pool.apply_async(models.f,(10,file1_location,flag,output_path))
@@ -74,6 +75,7 @@ def backend_assembly(new_filename, user_email,pipeline_num,tools,file1_location)
 def backend_prediction(new_filename, user_email,pipeline_num,tools,file1_location,file2_location):
     flag=0
     #MAKE OUTPUT PATH SPECIFIC FOR YOUR TOOL THIS IS JUST A TEST OUTPUT PATH
+    subprocess.run("mkdir "+BASE_OUTPUT_PATH+"Gene_Prediction/"+new_filename, shell = True)
     output_path=BASE_OUTPUT_PATH+"Gene_Prediction/"+new_filename+".tar.gz"
     #THIS IS JUST AN EXAMPLE FUNCTION
     pool.apply_async(models.f,(10,file1_location,flag,output_path))
@@ -86,6 +88,7 @@ def backend_prediction(new_filename, user_email,pipeline_num,tools,file1_locatio
 def backend_function(new_filename, user_email,pipeline_num,tools,file1_location):
     print(tools)
     flag=0
+    subprocess.run("mkdir "+BASE_OUTPUT_PATH+"Functional_Annotation/"+new_filename, shell = True)
     output_path=BASE_OUTPUT_PATH+"Functional_Annotation/"+new_filename+".tar.gz" 
     pool.apply_async(models.f,(10,file1_location,flag,output_path))
     if flag == 0:
@@ -97,6 +100,7 @@ def backend_function(new_filename, user_email,pipeline_num,tools,file1_location)
 def backend_comparative_with_reference(new_filename, user_email,pipeline_num,tools,file1_location,file2_location):
     flag=0
     #MAKE OUTPUT PATH SPECIFIC FOR YOUR TOOL THIS IS JUST A TEST OUTPUT PATH
+    subprocess.run("mkdir "+BASE_OUTPUT_PATH+"Comparitive_Genomics/"+new_filename, shell = True)
     output_path=BASE_OUTPUT_PATH+"Comparative_Genomics/"+new_filename+".tar.gz"
     #THIS IS JUST AN EXAMPLE FUNCTION
     pool.apply_async(models.f,(10,file1_location,flag,output_path))
@@ -109,6 +113,7 @@ def backend_comparative_with_reference(new_filename, user_email,pipeline_num,too
 def backend_comparative_no_reference(new_filename, user_email,pipeline_num,tools,file1_location):
     flag=0
     #MAKE OUTPUT PATH SPECIFIC FOR YOUR TOOL THIS IS JUST A TEST OUTPUT PATH
+    subprocess.run("mkdir "+BASE_OUTPUT_PATH+"Comparitive_Genomics/"+new_filename, shell = True)
     output_path=BASE_OUTPUT_PATH+"Comparative_Genomics/"+new_filename+".tar.gz"
     #THIS IS JUST AN EXAMPLE FUNCTION
     pool.apply_async(models.f,(10,file1_location,flag,output_path))
@@ -169,6 +174,8 @@ def backend_setup(files,user_email,pipeline_num,tools):
     		UPLOAD_FOLDER=UPLOAD_FOLDER+pipeline_dict.get(pipeline_num)+"/"
     		file1.save(os.path.join(UPLOAD_FOLDER,filename1))
     		subprocess.run("mkdir "+UPLOAD_FOLDER+new_filename, shell = True)
+		subprocess.run("mkdir "+DOWNLOAD_FOLDER+new_filename, shell = True)
+		subprocess.run("mkdir "+DOWNLOAD_FOLDER+new_filename, shell = True)
     		subprocess.run("mv "+UPLOAD_FOLDER+file1.filename+" "+UPLOAD_FOLDER+new_filename+"/", shell = True)
     		file1_location=UPLOAD_FOLDER+new_filename+"/"+file1.filename.rsplit('.')[0]
     		subprocess.run("tar -C "+UPLOAD_FOLDER+new_filename +"/ -zxvf "+UPLOAD_FOLDER+new_filename+"/"+file1.filename, shell = True)
