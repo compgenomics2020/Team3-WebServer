@@ -75,7 +75,7 @@ def BPGA():
 def GFFanalysis():
 	subprocess.call(["cd","/home/projects/group-c/Team3-ComparativeGenomics/script"])
 	subprocess.call(["mkdir","GFF"])
-	subprocess.call(["./gffconverter.py"])
+	subprocess.call(["./comparative_gffconverter.py"])
 
 
 def main():
