@@ -38,7 +38,7 @@ def f(mail_instance):
         time.sleep(10)
 
 def generate_download_url(job_id):
-    print("***************************2")
+    print("***************************")
     download_url = DOWNLOAD_URL_PATH.replace(':id:',str(job_id))
 
     return download_url
