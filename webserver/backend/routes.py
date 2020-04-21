@@ -21,7 +21,7 @@ pool = Pool(processes=4)
 pool3=Pool(processes=4)
 from flask import send_file
 from webserver.backend import delete_downloads
-import comparative_genomics
+#import comparative_genomics
 
 ALLOWED_EXTENSIONS = set(['gz'])
 ALLOWED_EXTENSIONS2 = set(['fasta', 'fna'])
