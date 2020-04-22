@@ -1,3 +1,4 @@
+import asyncio
 from os import path
 from flask import Blueprint, Response
 #from webserver import create_app
@@ -21,10 +22,16 @@ pool = Pool(processes=4)
 pool3=Pool(processes=4)
 from flask import send_file
 from webserver.backend import delete_downloads
-#import comparative_genomics
-
+from webserver.backend import functional_annotation_pipeline
 ALLOWED_EXTENSIONS = set(['gz'])
 ALLOWED_EXTENSIONS2 = set(['fasta', 'fna'])
+
+#from celery import Celery
+#current_app.config['CELERY_BROKER_URL'] = 'redis://localhost:5000/0'
+#current_app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:5000/0'
+
+#celery = Celery(current_app.name, broker=current_app.config['CELERY_BROKER_URL'])
+#celery.conf.update(current_app.config)
 
 UPLOAD_FOLDER = './Input/'
 
@@ -63,21 +70,18 @@ def generate_job_id():
 ##########################################LOOK FROM HERE#############################################
 
 @mod.route('/backend_assembly')
-def backend_assembly(new_filename, user_email, pipeline_num, tools, file1_location, download_folder):
-    print("running assembly back_end.....")
-    print("tools are " + str (tools))
-    flag = 0
-    # MAKE OUTPUT PATH SPECIFIC FOR YOUR TOOL THIS IS JUST A TEST OUTPUT PATH
-    #subprocess.run("mkdir " + BASE_OUTPUT_PATH + "Genome_Assembly/" + new_filename, shell=True)
-    #output_path = BASE_OUTPUT_PATH + "Genome_Assembly/" + new_filename + ".tar.gz"
-    #print("this is the output_path"+output_path)
-    output_path=download_folder+new_filename
-    pool.apply_async(genomeassembly.f, (file1_location, flag, output_path, tools))
+def backend_assembly(new_filename, user_email,pipeline_num,tools,file1_location,download_folder):
+    flag=0
+    #MAKE OUTPUT PATH SPECIFIC FOR YOUR TOOL THIS IS JUST A TEST OUTPUT PATH
+    #subprocess.run("mkdir "+BASE_OUTPUT_PATH+"Genome_Assembly/"+new_filename, shell = True)
+    output_path=BASE_OUTPUT_PATH+"Genome_Assembly/"+new_filename+".tar.gz"
+    #THIS IS JUST AN EXAMPLE FUNCTION
+    pool.apply_async(models.f,(10,file1_location,flag,output_path))
     if flag == 0:
-        c1 = db_util.scolia_data(job_id=new_filename, email=user_email, job_submitted=0, email_sent=0,
-                                 pipeline_number=pipeline_num)
-        db_util.insert(c1)
-    return (True)
+    	c1 = db_util.scolia_data(job_id = new_filename, email = user_email ,job_submitted = 0, email_sent = 0, pipeline_number = pipeline_num)
+    	db_util.insert(c1)
+    return(True)
+
 @mod.route('/backend_prediction')
 def backend_prediction(new_filename, user_email,pipeline_num,tools,file1_location,file2_location,download_folder):
     flag=0
@@ -95,9 +99,9 @@ def backend_prediction(new_filename, user_email,pipeline_num,tools,file1_locatio
 def backend_function(new_filename, user_email,pipeline_num,tools,file1_location,download_folder):
     print(tools)
     flag=0
-    subprocess.run("mkdir "+BASE_OUTPUT_PATH+"Functional_Annotation/"+new_filename, shell = True)
-    output_path=BASE_OUTPUT_PATH+"Functional_Annotation/"+new_filename+".tar.gz" 
-    pool.apply_async(models.f,(10,file1_location,flag,output_path))
+    #subprocess.run("mkdir "+BASE_OUTPUT_PATH+"Functional_Annotation/"+new_filename, shell = True)
+    #output_path=BASE_OUTPUT_PATH+"Functional_Annotation/"+new_filename+".tar.gz" 
+    pool.apply_async(functional_annotation_pipeline.f,(file1_location,download_folder,flag,))
     if flag == 0:
     	c1 = db_util.scolia_data(job_id = new_filename, email = user_email ,job_submitted = 0, email_sent = 0, pipeline_number = pipeline_num)
     	db_util.insert(c1)
@@ -176,10 +180,10 @@ def backend_setup(files,user_email,pipeline_num,tools):
     		print('returncode:', completed.returncode)
     		print('Have {} bytes in stdout:\n{}'.format(len(completed.stdout),completed.stdout.decode('utf-8')))
     	if pipeline_num==2:
-    		result=backend_prediction(new_filename,user_email,pipeline_num,tools,file1_location,file2_location,DOWNLOAD_FOLDER)
+    		result=backend_prediction(new_filename,user_email,pipeline_num,tools,file1_location,file2_location,DOWNLOAD_FOLDER+new_filename)
     		return(result)
     	if pipeline_num==4:
-    		result=backend_comparative_with_reference(new_filename,user_email,pipeline_num,tools,file1_location,file2_location,DOWNLOAD_FOLDER)
+    		result=backend_comparative_with_reference(new_filename,user_email,pipeline_num,tools,file1_location,file2_location,DOWNLOAD_FOLDER+new_filename)
     		return(result)
 
 ##########SETS UP FUNCTIONS WITH ONLY 1 FILE INPUT######################### 	            
@@ -214,13 +218,13 @@ def backend_setup(files,user_email,pipeline_num,tools):
     		print('Have {} bytes in stdout:\n{}'.format(len(completed.stdout),completed.stdout.decode('utf-8')))
 
     		if pipeline_num==3:
-    			result=backend_function(new_filename,user_email,pipeline_num,tools,file1_location,DOWNLOAD_FOLDER)
+    			result=backend_function(new_filename,user_email,pipeline_num,tools,file1_location,DOWNLOAD_FOLDER+new_filename)
     			return(result)
     		if pipeline_num==1:
-    			result=backend_assembly(new_filename,user_email,pipeline_num,tools,file1_location,DOWNLOAD_FOLDER)
+    			result=backend_assembly(new_filename,user_email,pipeline_num,tools,file1_location,DOWNLOAD_FOLDER+new_filename)
     			return(result)
     		if pipeline_num==4:
-    			result=backend_comparative_no_reference(new_filename,user_email,pipeline_num,tools,file1_location,DOWNLOAD_FOLDER)
+    			result=backend_comparative_no_reference(new_filename,user_email,pipeline_num,tools,file1_location,DOWNLOAD_FOLDER+new_filename)
     			return(result)
 	
     	else:
@@ -235,6 +239,7 @@ def download_processed_files():
     pipeline_number = row.pipeline_number
     file_path = "."+BASE_OUTPUT_PATH+pipeline_dict.get(pipeline_number)+"/"+job_id+".tar.gz"
     file_path_delete=BASE_OUTPUT_PATH+pipeline_dict.get(pipeline_number)+"/"+job_id+".tar.gz"
+    print(file_path)
     #pool3.apply_async(delete_downloads.f,(file_path_delete,int(job_id),))
     if path.exists(file_path_delete):
     	return send_file(file_path, as_attachment=True)
