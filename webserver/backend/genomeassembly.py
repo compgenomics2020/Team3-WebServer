@@ -28,6 +28,7 @@ def f(input_dir, flag,output_dir, tools):
     trim_flag = 'trim' in tools
     run_fastp(input_dir, fastp_dir, trimmed_dir, trim_flag)
     run_multiqc(fastp_dir)
+    print(tools)
     if 'skesa' in tools:
         run_skesa(trimmed_dir, assembly_dir)
     else:
@@ -37,7 +38,6 @@ def f(input_dir, flag,output_dir, tools):
 
     if flag == 0:
         db_util.update_pipeline_status(input_dir.split('/')[-2])
-
 
     p = subprocess.Popen(["tar", "-czvf", output_dir + ".tar.gz", output_dir], stdout=subprocess.PIPE)
     out = p.communicate()
@@ -60,11 +60,13 @@ def f(input_dir, flag,output_dir, tools):
 def run_fastp(raw_dir, fastp_dir, trimmed_dir, trim=True):
     # deleting previous directories, make new ones
     print("running fastp.........")
-    subprocess.call(['rm', '-rf', fastp_dir, trimmed_dir])
-    subprocess.call(['mkdir', fastp_dir, trimmed_dir])
+    # subprocess.call(['rm', '-rf', fastp_dir, trimmed_dir])
+    # subprocess.call(['mkdir', fastp_dir, trimmed_dir])
+
     for filename in glob.glob(raw_dir + '/*1.f*'):
-        id = filename[len(raw_dir):filename.find('.') - 2]
+        id = filename[len(raw_dir)+1:filename.find('.') - 6]
         print(id)
+        print(glob.glob('{}*{}*2*'.format(raw_dir, id))[0])
         arg_list = ['fastp',
                     '-i', filename,
                     '-I', glob.glob('{}*{}*2*'.format(raw_dir, id))[0],
@@ -75,7 +77,10 @@ def run_fastp(raw_dir, fastp_dir, trimmed_dir, trim=True):
         else:
             subprocess.call(['cp', filename, trimmed_dir])
             subprocess.call(['cp', glob.glob('{}*{}*2*'.format(raw_dir, id))[0], trimmed_dir])
-        arg_list += '-j', '{}/{}_fastp.json'.format(fastp_dir, id)
+
+        arg_list += ['-j', '{}/{}_fastp.json'.format(fastp_dir, id)]
+
+        subprocess.call(arg_list)
     print("completed fastp....")
 
 ######### MULTIQC
@@ -85,6 +90,7 @@ def run_fastp(raw_dir, fastp_dir, trimmed_dir, trim=True):
 def run_multiqc(fastp_dir):
     print("running multiqc.....")
     subprocess.call(['multiqc', fastp_dir, '-o', fastp_dir])
+    print("completed multiqc........")
 
 ################## GENOME ASSEMBLY
 
