@@ -427,12 +427,12 @@ def f(input_path,output_path,flag):
 		#formateggNOG(eggNOG_output_path,cluster_dict,temp_dir)
 
 ##Run CARD and VFDB by default 
-	#CARD_output_path=CARD(input_path,temp_dir)
+	CARD_output_path=CARD(input_path,temp_dir)
 	
 	VFDB_output_path=VFDB(input_path,temp_dir)
 
 ##Reformat CARD and VFDB  outputs into gff format to be merged
-	#formatCARD(CARD_output_path,temp_dir)
+	formatCARD(CARD_output_path,temp_dir)
 	formatVFDB(VFDB_output_path,temp_dir)
 
 ##Merge all of the reformated files so there is one full gff file for each sample 
