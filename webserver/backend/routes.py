@@ -23,6 +23,8 @@ pool3=Pool(processes=4)
 from flask import send_file
 from webserver.backend import delete_downloads
 from webserver.backend import functional_annotation_pipeline
+from webserver.backend import genomeassembly
+from webserver.backend import gene_prediction
 ALLOWED_EXTENSIONS = set(['gz'])
 ALLOWED_EXTENSIONS2 = set(['fasta', 'fna'])
 
