@@ -167,7 +167,7 @@ def f(input_path, org_cds, output_path, flag):
     filename1 = os.listdir(input_path)
     for files in filename1:
         runProdigal(input_path+"/"+files)
-        #runGMS2(input_path+"/"+files)
+        runGMS2(input_path+"/"+files)
     runBedtoolsIntersect(input_path, output_path)
     runGetFASTA(input_path, output_path)
     runBLAST(output_path)
