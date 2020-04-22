@@ -29,7 +29,7 @@ def CARD(input_dir,output_dir):
 		out=p.communicate()
 		print("HERE")
 		final_output=CARD_output_path+"/"+prefix+"_CARD-RGI_coding"
-		command = ["/Users/queenalli/anaconda3/envs/test3/bin/rgi","-i",input_dir+"/"+files,"-o",final_output,]
+		command = ["/projects/VirtualHost/predictc/html/miniconda_webserver/envs/rgi_env/bin/rgi","-i",input_dir+"/"+files,"-o",final_output,]
 		p=subprocess.Popen(command, stdout=subprocess.PIPE)
 		out = p.communicate()
 		counter +=1
