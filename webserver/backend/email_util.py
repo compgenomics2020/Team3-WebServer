@@ -6,7 +6,7 @@ from multiprocessing import Pool
 #from webserver.backend import function
 import multiprocessing
 
-DOWNLOAD_URL_PATH = 'http://localhost:5000/download?id=:id:'
+DOWNLOAD_URL_PATH = 'http://http://predict2020t3.biosci.gatech.edu/download?id=:id:'
 
 def init_email_sender(mail_instance):
     print("::::::::::::::initialising email sender")
