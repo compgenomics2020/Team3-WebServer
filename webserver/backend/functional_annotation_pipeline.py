@@ -264,6 +264,15 @@ def mergeGff(output_dir,output_path2):
 	print("Merging Files.....")
 	make_temp="mkdir "+output_path2+"/merged"
 	os.system(make_temp)
+	make_temp="mkdir -p "+output_path2+"/VFDB"
+	os.system(make_temp)
+	copy_vfdb="for i in "+output_dir+"/format/VFDB/*; do cp $i "+output_path2+"/VFDB; done"
+	os.system(copy_vfdb)
+	make_temp="mkdir -p "+output_path2+"/CARD"
+	os.system(make_temp)
+	copy_card="for i in "+output_dir+"/format/CARD/*; do cp $i "+output_path2+"/CARD; done"
+	os.system(copy_card)
+
 	sample_dict={}
 	mapped_dir_path=output_dir+"/format"
 	for dir_name in os.listdir(mapped_dir_path):
@@ -328,17 +337,10 @@ def mergeGff(output_dir,output_path2):
 				output_file.write(header)
 				for annotation in loop_lines:
 					output_file.write(annotation)
+
 		output_file.close()
-		make_temp="mkdir -p "+output_path2+"/CARD"
-		os.system(make_temp)
-		make_temp="mkdir -p "+output_path2+"/VFDB"
-		os.system(make_temp)
-		copy_card="for i in "+output_dir+"/format/CARD/*; do cp $i "+output_path2+"/CARD; done"
-		#print(copy_card)
-		os.system(copy_card)
-		copy_vfdb="for i in "+output_dir+"/format/VFDB/*; do cp $i "+output_path2+"/VFDB; done"
-		os.system(copy_vfdb)
-		#print(copy_vfdb)
+
+
 def GetFASTA(input,dir,toolname):
 	make_temp="mkdir -p ./Outputs/fasta/"+toolname
 	os.system(make_temp)

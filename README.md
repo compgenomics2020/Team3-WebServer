@@ -53,7 +53,10 @@ The comparative gneomics module allows users to find the genetic relatedness bet
 * *Output Files:* 
     * For FASTA input: ANI distribution figure, maximum likelihood allele phylogenetic tree
     * For .GFF input: hierarchical clustering dendrogram
-
+* *For Deployment:*
+    * How it is set up now after speaking with IT, we still have to manually run the program within the path "/projects/VirtualHost/predictc/html/Team3-WebServer " within this directory run webserver.wsgi by using the command ./webserser.wsgi &
+    * Once this is done the webserver will be fully functional through the link http://predict2020t3.biosci.gatech.edu
+    * In the future we hope to get this set up so that we do not have to manually run it 
 # Authors
 
 * Sonali Gupta
